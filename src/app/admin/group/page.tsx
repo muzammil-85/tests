@@ -31,6 +31,7 @@ const AdminGrid = () => {
     }
   }, [token, router]);
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
+    { field: "gp_id", headerName: "Group Id" },
     { field: "gp_name", headerName: "Group name" },
     { field: "group_type", headerName: "Group type" },
     { field: "type_name", headerName: "School type" },
@@ -50,7 +51,7 @@ const AdminGrid = () => {
   const defaultColDef = useMemo(() => {
     return {
       filter: "agTextColumnFilter",
-      floatingFilter: true,
+      floatingFilter: false,
     };
   }, []);
   const onRowClicked = (event: RowClickedEvent) => {
