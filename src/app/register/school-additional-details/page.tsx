@@ -737,7 +737,7 @@ const MultiSelectZodForm = () => {
               )}
             />
 
-            <FormField
+            {/* <FormField
               control={multiForm.control}
               name="list_of_classes"
               render={({ field }) => (
@@ -750,7 +750,7 @@ const MultiSelectZodForm = () => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             
             <FormField
               control={multiForm.control}
