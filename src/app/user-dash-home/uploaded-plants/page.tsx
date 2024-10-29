@@ -246,7 +246,7 @@ const MyUploadedPlants = () => {
                   <td className='border border-black p-4'>
                     <div className='w-56 h-56  md:max-w-[200px]'>
                     {plant.up_file_2 && plant.up_file_3 ? (plant.up_file_4 ? (
-                        <div className='flex items-center justify-center'>
+                        <div className=''>
                           <div className="aspect-square h-40 w-40">
                             <img 
                               src={`${imageURL}${plant.up_file_4}`} 

@@ -23,6 +23,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
 import { DialogUploadPlant } from "@/app/user-dash-home/dialog-upload-plants";
 import Cookies from "js-cookie";
+import { DialogUploadActivities } from "./dialog-upload-activity";
 
 function UserDashHomeFn() {
   const router = useRouter();
@@ -72,6 +73,8 @@ function UserDashHomeFn() {
                   </p>
                 </div>
               </Link>
+              {/* Upload Activity Dialog */}
+              <DialogUploadActivities/>
 
               {/* My Activities */}
               <Link
