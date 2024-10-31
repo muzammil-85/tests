@@ -14,7 +14,6 @@ import axios from "axios";
 import { apiURL } from "@/app/requestsapi/request";
 import Cookies from 'js-cookie';
 import * as XLSX from 'xlsx';
-import { AddChapterForm } from "./[id]/addmmcform";
 import { AddAdForm } from "./[id]/addadform";
 
 ModuleRegistry.registerModules([ClientSideRowModelModule]);
@@ -49,7 +48,7 @@ const AdminGrid = () => {
   const defaultColDef = useMemo(() => {
     return {
       filter: "agTextColumnFilter",
-      floatingFilter: true,
+      floatingFilter: false,
     };
   }, []);
 

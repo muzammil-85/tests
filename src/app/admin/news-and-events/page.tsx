@@ -39,6 +39,7 @@ const AdminGrid = () => {
   }, [token, router]);
 
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
+    { field: "id", headerName: "Id" },
     { field: "event_heading", headerName: "Heading" },
     { field: "event_body", headerName: "Body" },
     { field: "created_time", headerName: "Date" },
@@ -49,7 +50,7 @@ const AdminGrid = () => {
   const defaultColDef = useMemo(() => {
     return {
       filter: "agTextColumnFilter",
-      floatingFilter: true,
+      floatingFilter: false,
     };
   }, []);
 

@@ -66,7 +66,7 @@ const AdminGrid = () => {
   const defaultColDef = useMemo(() => {
     return {
       filter: "agTextColumnFilter",
-      floatingFilter: true,
+      floatingFilter: false,
     };
   }, []);
   const onRowClicked = (event: RowClickedEvent) => {

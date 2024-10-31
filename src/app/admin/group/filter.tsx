@@ -946,7 +946,7 @@ const AdminGrid = () => {
         console.log(e.target.value)
         if (e.target.value != "") {
             setSelectIcdsProject(e.target.value);
-            fetchFilteredIcdsProject(e.target.value);
+            fetchFilteredIcdsProject(e.target.value); 
             setCurrentPage(1); // Reset to first page
         }
     };
