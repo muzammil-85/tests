@@ -358,7 +358,7 @@ const MultiSelectZodForm = () => {
       if (result) {
         toast({
           title: "Account created.",
-          description: "We've created your account for you.",
+          description: "ഇനി  കോഡിനേറ്റർ  USER  NAME  ഉം  PASSWORD ഉം കൊടുത്ത് LOGIN   ചെയ്യുക.",
         });
         router.push("/loginform");
       }
