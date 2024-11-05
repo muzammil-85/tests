@@ -36,7 +36,7 @@ const formSchema = z.object({
   value: z.array(z.string()).nonempty("Please select at least one club"),
   no_of_students: z.coerce.number(),
   total_classes: z.coerce.number().gte(1).lte(999),
-  list_of_classes: z.string(),
+  // list_of_classes: z.string(),
   category: z.string().nonempty("Please select a category"),
   schooltype: z.string().nonempty("Please select a type"),
   class: z.string().nonempty("Please select a class"),
@@ -194,7 +194,7 @@ const MultiSelectZodForm = () => {
       missionzone: '',
       category: '',
       class: '',
-      list_of_classes: [],
+      // list_of_classes: [],
     },
   });
 
