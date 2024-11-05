@@ -1,96 +1,146 @@
-"use client";
-
-import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
 import {
-    ColDef,
-    ModuleRegistry,
-    RowClickedEvent,
-} from "@ag-grid-community/core";
-import { AgGridReact } from "@ag-grid-community/react";
-import "@/app/admin/ag-grid-theme-builder.css"
-import { useRouter } from "next/navigation";
-import React, { StrictMode, useEffect, useMemo, useState } from "react";
-import axios from "axios";
-import { apiURL, fetchClubData } from "@/app/requestsapi/request";
-import Cookies from 'js-cookie';
-import * as XLSX from 'xlsx';
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Edit } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
 
-ModuleRegistry.registerModules([ClientSideRowModelModule]);
-interface Club {
-    id: string;
-    name: string;
-  }
+import Cookies from 'js-cookie';
+
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { DateTimePicker } from "@/components/ui/dateTimePicker";
+import { usePathname, useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+import { useEffect, useState } from "react";
+import { apiURL, fetchClubData } from "@/app/requestsapi/request";
+import axios from "axios";
+import imageCompression from "browser-image-compression";
+const formSchema = z.object({
+ 
+});
+
 interface Country {
-    cntry_id: number;
-    cntry_name: string;
+  cntry_id: number;
+  cntry_name: string;
 }
+
 interface State {
-    st_id: number;
-    st_name: string;
+  st_id: number;
+  st_name: string;
 }
 
 interface District {
-    dis_id: number;
-    dis_name: string;
+  dis_id: number;
+  dis_name: string;
 }
-type Corp = {
-    cop_id: string;
-    cop_name: string;
-}
+
 interface Lsgd {
-    lsg_id: number;
-    lsg_name: string;
+  lsg_id: number;
+  lsg_name: string;
 }
+
+type Corp = {
+  cop_id: string;
+  cop_name: string;
+}
+
+
 type Category = {
-    id: string;
-    group_type: string;
+  id: string;
+  group_type: string;
+}
+
+type GrpName = {
+  gp_id: string;
+  gp_name: string;
 }
 interface SchoolType {
-    id: string;
-    type_name: string;
-}
-interface EduDistrict {
-    edu_district_id: string;
-    edu_district: string;
-}
-interface EduSubDistrict {
-    edu_sub_district_id: string;
-    edu_sub_district_name: string;
+  id: string;
+  type_name: string;
 }
 interface SubCategory {
-    gp_cat_id: string;
-    gp_cat_name: string;
+  gp_cat_id: string;
+  gp_cat_name: string;
+}
+interface EduDistrict {
+  edu_district_id: string;
+  edu_district: string;
 }
 interface Sahodaya {
-    sahodaya_id: string;
-    sahodaya_name: string;
+  sahodaya_id: string;
+  sahodaya_name: string;
+}
+
+interface EduSubDistrict {
+  edu_sub_district_id: string;
+  edu_sub_district_name: string;
 }
 interface IcdsBlock {
-    icds_block_id: string;
-    block_name: string;
+  icds_block_id: string;
+  block_name: string;
 }
 interface IcdsProject {
-    project_id: string;
-    project_name: string;
+  project_id: string;
+  project_name: string;
 }
 interface MissionChapter {
-    chapter_id: string;
-    chapter_name: string;
+  chapter_id: string;
+  chapter_name: string;
 }
 interface MissionZone {
-    zone_id: string;
-    zone_name: string;
+  zone_id: string;
+  zone_name: string;
 }
-const EditType = () => {
-    const router = useRouter();
-    const [rowData, setRowData] = useState([]);
-    const token = Cookies.get("adtoken");
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const itemsPerPage = 10;
+interface Club {
+  id: string;
+  name: string;
+}
 
-    const [totalcount, setTotalcount] = useState("");
-    const [countries, setCountries] = useState<Country[]>([]);
+
+
+export function EditGrpTypeForm() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const Id = pathname.split("/")[3];
+  const { toast } = useToast();
+  const token = Cookies.get("adtoken");
+
+
+  const [countries, setCountries] = useState<Country[]>([]);
     const [states, setStates] = useState<State[]>([]);
     const [districts, setDistricts] = useState<District[]>([]);
     const [selectedCountry, setSelectedCountry] = useState("");
@@ -133,312 +183,420 @@ const EditType = () => {
     const [selectZone, setSelectedZone] = useState('');
     const [clubOptions, setClubOptions] = useState<Club[]>([]);
 
+
+    useEffect(() => {
+        async function fetchdata() {
+          if (token) {
     
-    
-
-    useEffect(() => {
-        async function fetchData() {
-
-            const countryResponse = await fetch(`${apiURL}/country`);
-            const countryData = await countryResponse.json();
-            setCountries(countryData.country);
-
-
-            const stateResponse = await fetch(`${apiURL}/state`);
-            const stateData = await stateResponse.json();
-            setStates(stateData.state);
-
-            const districtResponse = await fetch(`${apiURL}/district`);
-            const districtData = await districtResponse.json();
-            setDistricts(districtData.district);
-
-        }
-        fetchData();
-    }, [selectedCountry]);
-
-    useEffect(() => {
-        async function fetchCorpData() {
-            if (selectedCntry === "India" && selectedState === "Kerala" && selectedDistrict) {
-                const dist_id = districts.find((item) => item.dis_name === selectedDistrict)?.dis_id;
-                const corpResponse = await fetch(`${apiURL}/corporation/${dist_id}`);
-                const corpData = await corpResponse.json();
-                setCorporation(corpData.corporation);
-            } else {
-                setCorporation([]);
-            }
-        }
-        fetchCorpData();
-    }, [selectedCntry, selectedState, selectedDistrict, districts]);
-
-    useEffect(() => {
-        async function fetchLsgdData() {
-            if (selectedCntry === "India" && selectedState === "Kerala" && selectedCorp) {
-                const corp_id = corporation.find((item) => item.cop_name === selectedCorp)?.cop_id;
-                const lsgResponse = await fetch(`${apiURL}/lsg/${corp_id}`);
-                const lsgData = await lsgResponse.json();
-                setLsgd(lsgData.lsg);
-            } else {
-                setLsgd([]);
-            }
-            // setSelectedLsgd("");
-            // setWardNo("");
-        }
-        fetchLsgdData();
-    }, [selectedCntry, selectedState, selectedCorp, corporation]);
-
-    useEffect(() => {
-        async function fetchData() {
-            const categoryResponse = await fetch(`${apiURL}/category`);
-            const categoryData = await categoryResponse.json();
-            console.log(categoryData.category)
-            setCategory(categoryData.category);
-        }
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        const fetchClass = async () => {
+            const response = await axios.get(`${apiURL}/adminFrame/groupDetails/${Id}`, {
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+              }
+            })
             try {
-                const responsetype = await axios.get(`${apiURL}/schoolType`);
-                setSchoolType(responsetype.data.schoolType);
-                const dis_id = districts.find((item) => item.dis_name === selectedDistrictGrp)?.dis_id;
-
-                const responseedudistrict = dis_id ? await axios.get(`${apiURL}/eduDistrict/${dis_id}`) : null;
-                responseedudistrict ? setEduDistrict(responseedudistrict.data.eduDistrict) : '';
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-        fetchClass();
-    }, [districts, selectedDistrictGrp]);
-
-    useEffect(() => {
-        const fetchCategory = async () => {
-            try {
-                const response = await axios.get(`${apiURL}/schoolCategory`);
-
-                setSubCategoryOptions(response.data.subCategory);
-            } catch (error) {
-                console.error("Error fetching category:", error);
-            }
-        };
-        fetchCategory();
-    }, []);
-
-    useEffect(() => {
-        const fetchClubs = async () => {
-          try {
     
-            const data = await fetchClubData();
-            setClubOptions(data.clubs);
-          } catch (error) {
-            console.error("Error fetching clubs:", error);
+              if (response.data.success && response.status != 203) {
+                console.log(response.data.groupDetails[0])
+                // setUploadData(response.data.groupDetails);
+              } else {
+    
+              }
+    
+            } catch (error) {
+              console.error("Error:", error);
+    
+            }
+          };
+        }
+        fetchdata();
+      }, [token, Id]);
+
+
+    useEffect(() => {
+      async function fetchData() {
+
+          const countryResponse = await fetch(`${apiURL}/country`);
+          const countryData = await countryResponse.json();
+          setCountries(countryData.country);
+
+
+          const stateResponse = await fetch(`${apiURL}/state`);
+          const stateData = await stateResponse.json();
+          setStates(stateData.state);
+
+          const districtResponse = await fetch(`${apiURL}/district`);
+          const districtData = await districtResponse.json();
+          setDistricts(districtData.district);
+
+      }
+      fetchData();
+  }, [selectedCountry]);
+
+  useEffect(() => {
+      async function fetchCorpData() {
+          if (selectedCntry === "India" && selectedState === "Kerala" && selectedDistrict) {
+              const dist_id = districts.find((item) => item.dis_name === selectedDistrict)?.dis_id;
+              const corpResponse = await fetch(`${apiURL}/corporation/${dist_id}`);
+              const corpData = await corpResponse.json();
+              setCorporation(corpData.corporation);
+          } else {
+              setCorporation([]);
           }
-        };
-        fetchClubs();
-      }, []);
+      }
+      fetchCorpData();
+  }, [selectedCntry, selectedState, selectedDistrict, districts]);
 
-      
-    useEffect(() => {
-        const handleCbse = async () => {
-            if (selectedschoolType === 'CBSE' && selectedStateGrp) {
-                try {
-                    const st_id = states.find((item) => item.st_name === selectedStateGrp)?.st_id;
-                    const response = await axios.get(`${apiURL}/sahodaya/${st_id}`);
-                    setSahodaya(response.data.sahodayaList);
-                } catch (error) {
-                    console.error("Error fetching data:", error);
-                }
-            }
-            if (selectedschoolType === 'ICDS' && selectedDistrictGrp) {
+  useEffect(() => {
+      async function fetchLsgdData() {
+          if (selectedCntry === "India" && selectedState === "Kerala" && selectedCorp) {
+              const corp_id = corporation.find((item) => item.cop_name === selectedCorp)?.cop_id;
+              const lsgResponse = await fetch(`${apiURL}/lsg/${corp_id}`);
+              const lsgData = await lsgResponse.json();
+              setLsgd(lsgData.lsg);
+          } else {
+              setLsgd([]);
+          }
+          // setSelectedLsgd("");
+          // setWardNo("");
+      }
+      fetchLsgdData();
+  }, [selectedCntry, selectedState, selectedCorp, corporation]);
 
-                try {
-                    const dis_id = districts.find((item) => item.dis_name === selectedDistrictGrp)?.dis_id;
+  useEffect(() => {
+      async function fetchData() {
+          const categoryResponse = await fetch(`${apiURL}/category`);
+          const categoryData = await categoryResponse.json();
+          console.log(categoryData.category)
+          setCategory(categoryData.category);
+      }
+      fetchData();
+  }, []);
 
+  useEffect(() => {
+      const fetchClass = async () => {
+          try {
+              const responsetype = await axios.get(`${apiURL}/schoolType`);
+              setSchoolType(responsetype.data.schoolType);
+              const dis_id = districts.find((item) => item.dis_name === selectedDistrictGrp)?.dis_id;
 
-                    const response = await axios.get(`${apiURL}/icdsBlock/${dis_id}`);
+              const responseedudistrict = dis_id ? await axios.get(`${apiURL}/eduDistrict/${dis_id}`) : null;
+              responseedudistrict ? setEduDistrict(responseedudistrict.data.eduDistrict) : '';
+          } catch (error) {
+              console.error("Error fetching data:", error);
+          }
+      };
+      fetchClass();
+  }, [districts, selectedDistrictGrp]);
 
-                    setIcdsBlock(response.data.icdsBlockList);
-                } catch (error) {
-                    console.error("Error fetching data:", error);
-                }
+  useEffect(() => {
+      const fetchCategory = async () => {
+          try {
+              const response = await axios.get(`${apiURL}/schoolCategory`);
 
-            }
-            if (selectedschoolType === 'Malayalam Mission' && selectMissionarea) {
+              setSubCategoryOptions(response.data.subCategory);
+          } catch (error) {
+              console.error("Error fetching category:", error);
+          }
+      };
+      fetchCategory();
+  }, []);
 
-                try {
-                    const response = await axios.get(`${apiURL}/malayalamMissionChapter/${selectMissionarea}`);
-                    setMissionChapter(response.data.chapterList);
-                } catch (error) {
-                    console.error("Error fetching data:", error);
-                }
-
-            }
-        };
-        handleCbse();
-    }, [districts, selectedschoolType, states, selectMissionarea, selectedStateGrp, selectedDistrictGrp]);
-
-    const handleIcds = async (e: any) => {
+  useEffect(() => {
+      const fetchClubs = async () => {
         try {
-            const icdsid = icdsBlock.find((item) => item.block_name === e)?.icds_block_id
-            const response = await axios.get(`${apiURL}/icdsProject/${icdsid}`);
-            setIcdsProject(response.data.icdsProjectList);
-
+  
+          const data = await fetchClubData();
+          setClubOptions(data.clubs);
         } catch (error) {
-            console.error("Error fetching data:", error);
+          console.error("Error fetching clubs:", error);
         }
-    }
-    const handleChapter = async (e: any) => {
-        try {
-            const chapterid = missionChapter.find((item) => item.chapter_name === e)?.chapter_id
-            const response = await axios.get(`${apiURL}/malayalamMissionZone/${chapterid}`);
-            setMissionZone(response.data.zoneList);
-
-
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
-    }
-
-    const handleEduDistrict = async (e: any) => {
-        try {
-            const eduid = eduDistrict.find((item) => item.edu_district === e)?.edu_district_id
-            const responseedusubdistrict = await axios.get(`${apiURL}/eduSubDistrict/${eduid}`);
-            setEduSubDistrict(responseedusubdistrict.data.eduSubDistrict);
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
-    }
+      };
+      fetchClubs();
+    }, []);
 
     
-    const handleFilterClub = (e: any) => {
-        console.log(e.target.value)
-        if (e != "") {
-            setSelectClub(e.target.value);
-        }
-    };
+  useEffect(() => {
+      const handleCbse = async () => {
+          if (selectedschoolType === 'CBSE' && selectedStateGrp) {
+              try {
+                  const st_id = states.find((item) => item.st_name === selectedStateGrp)?.st_id;
+                  const response = await axios.get(`${apiURL}/sahodaya/${st_id}`);
+                  setSahodaya(response.data.sahodayaList);
+              } catch (error) {
+                  console.error("Error fetching data:", error);
+              }
+          }
+          if (selectedschoolType === 'ICDS' && selectedDistrictGrp) {
 
-   
+              try {
+                  const dis_id = districts.find((item) => item.dis_name === selectedDistrictGrp)?.dis_id;
 
-    const handleFilterSchoolType = (e: any) => {
-        console.log(e.target.value)
-        if (e.target.value != "") {
-            setSelectedSchoolType(e.target.value);
-            e.target.value === 'CBSE' ? setSelectedCountryGrp('India') : ''
-            e.target.value === 'General Education' || 'ICDS' ? setSelectedCountryGrp('India') : ''
-            e.target.value === 'General Education' || 'ICDS' ? setSelectedStateGrp('Kerala') : ''
-            
-        }
-    };
 
-   
+                  const response = await axios.get(`${apiURL}/icdsBlock/${dis_id}`);
 
-    const handleFilterSchoolCategory = (e: any) => {
-        console.log(e.target.value)
-        if (e.target.value != "") {
-            setSelectedSubCategory(e.target.value);
-           
-        }
-    };
+                  setIcdsBlock(response.data.icdsBlockList);
+              } catch (error) {
+                  console.error("Error fetching data:", error);
+              }
 
-    
+          }
+          if (selectedschoolType === 'Malayalam Mission' && selectMissionarea) {
 
-    const handleFilterSahodayaState = (e: any) => {
-        console.log(e.target.value)
-        if (e.target.value != "") {
-            setSelectedStateGrp(e.target.value);
+              try {
+                  const response = await axios.get(`${apiURL}/malayalamMissionChapter/${selectMissionarea}`);
+                  setMissionChapter(response.data.chapterList);
+              } catch (error) {
+                  console.error("Error fetching data:", error);
+              }
+
+          }
+      };
+      handleCbse();
+  }, [districts, selectedschoolType, states, selectMissionarea, selectedStateGrp, selectedDistrictGrp]);
+
+  const handleIcds = async (e: any) => {
+      try {
+          const icdsid = icdsBlock.find((item) => item.block_name === e)?.icds_block_id
+          const response = await axios.get(`${apiURL}/icdsProject/${icdsid}`);
+          setIcdsProject(response.data.icdsProjectList);
+
+      } catch (error) {
+          console.error("Error fetching data:", error);
+      }
+  }
+  const handleChapter = async (e: any) => {
+      try {
+          const chapterid = missionChapter.find((item) => item.chapter_name === e)?.chapter_id
+          const response = await axios.get(`${apiURL}/malayalamMissionZone/${chapterid}`);
+          setMissionZone(response.data.zoneList);
+
+
+      } catch (error) {
+          console.error("Error fetching data:", error);
+      }
+  }
+
+  const handleEduDistrict = async (e: any) => {
+      try {
+          const eduid = eduDistrict.find((item) => item.edu_district === e)?.edu_district_id
+          const responseedusubdistrict = await axios.get(`${apiURL}/eduSubDistrict/${eduid}`);
+          setEduSubDistrict(responseedusubdistrict.data.eduSubDistrict);
+      } catch (error) {
+          console.error("Error fetching data:", error);
+      }
+  }
+
+  
+  const handleFilterClub = (e: any) => {
+      console.log(e.target.value)
+      if (e != "") {
+          setSelectClub(e.target.value);
+      }
+  };
+
+ 
+
+  const handleFilterSchoolType = (e: any) => {
+      console.log(e.target.value)
+      if (e.target.value != "") {
+          setSelectedSchoolType(e.target.value);
+          e.target.value === 'CBSE' ? setSelectedCountryGrp('India') : ''
+          e.target.value === 'General Education' || 'ICDS' ? setSelectedCountryGrp('India') : ''
+          e.target.value === 'General Education' || 'ICDS' ? setSelectedStateGrp('Kerala') : ''
           
-        }
-    };
+      }
+  };
 
-    const handleFilterSahodaya = (e: any) => {
-        console.log(e.target.value)
-        if (e.target.value != "") {
-            setSelectSahodaya(e.target.value);
-            
-        }
-    };
+ 
 
-   
+  const handleFilterSchoolCategory = (e: any) => {
+      console.log(e.target.value)
+      if (e.target.value != "") {
+          setSelectedSubCategory(e.target.value);
+         
+      }
+  };
 
+  
 
-    const handleFilterEDistrict = (e: any) => {
-        console.log(e.target.value)
-        if (e.target.value != "") {
-            setSelectedDistrictGrp(e.target.value);
-           
-        }
-    };
+  const handleFilterSahodayaState = (e: any) => {
+      console.log(e.target.value)
+      if (e.target.value != "") {
+          setSelectedStateGrp(e.target.value);
+        
+      }
+  };
 
-    const handleFilterEduDistrict = (e: any) => {
-        console.log(e.target.value)
-        if (e.target.value != "") {
-            setSelecteduDistrict(e.target.value);
-            handleEduDistrict(e.target.value);
-            
-        }
-    };
+  const handleFilterSahodaya = (e: any) => {
+      console.log(e.target.value)
+      if (e.target.value != "") {
+          setSelectSahodaya(e.target.value);
+          
+      }
+  };
 
-    const handleFilterEduSubDistrict = (e: any) => {
-        console.log(e.target.value)
-        if (e.target.value != "") {
-            setSelecteduSubDistrict(e.target.value);
-            
-        }
-    };
-
-    
+ 
 
 
-    const handleFilterIcdsBlock = (e: any) => {
-        console.log(e.target.value)
-        if (e.target.value != "") {
-            setSelectIcdsBlock(e.target.value);
-            handleIcds(e.target.value);
-            
-        }
-    };
+  const handleFilterEDistrict = (e: any) => {
+      console.log(e.target.value)
+      if (e.target.value != "") {
+          setSelectedDistrictGrp(e.target.value);
+         
+      }
+  };
 
-    const handleFilterIcdsProject = (e: any) => {
-        console.log(e.target.value)
-        if (e.target.value != "") {
-            setSelectIcdsProject(e.target.value);
-            
-        }
-    };
+  const handleFilterEduDistrict = (e: any) => {
+      console.log(e.target.value)
+      if (e.target.value != "") {
+          setSelecteduDistrict(e.target.value);
+          handleEduDistrict(e.target.value);
+          
+      }
+  };
 
-   
+  const handleFilterEduSubDistrict = (e: any) => {
+      console.log(e.target.value)
+      if (e.target.value != "") {
+          setSelecteduSubDistrict(e.target.value);
+          
+      }
+  };
 
-    const handleFilterMissionArea = (e: any) => {
-        console.log(e.target.value)
-        if (e.target.value != "") {
-            setSelectMissionarea(e.target.value);
-           
-        }
-    };
-
-    const handleFilterMissionChapter = (e: any) => {
-        console.log(e.target.value)
-        if (e.target.value != "") {
-            setSelectedMission(e.target.value);
-            handleChapter(e.target.value);
-            
-        }
-    };
-
-    const handleFilterMissionZone = (e: any) => {
-        console.log(e.target.value)
-        if (e.target.value != "") {
-            setSelectedZone(e.target.value);
-            
-        }
-    };
-
-   
+  
 
 
-    return (
-        <div className=" bg-slate-100">
+  const handleFilterIcdsBlock = (e: any) => {
+      console.log(e.target.value)
+      if (e.target.value != "") {
+          setSelectIcdsBlock(e.target.value);
+          handleIcds(e.target.value);
+          
+      }
+  };
+
+  const handleFilterIcdsProject = (e: any) => {
+      console.log(e.target.value)
+      if (e.target.value != "") {
+          setSelectIcdsProject(e.target.value);
+          
+      }
+  };
+
+ 
+
+  const handleFilterMissionArea = (e: any) => {
+      console.log(e.target.value)
+      if (e.target.value != "") {
+          setSelectMissionarea(e.target.value);
+         
+      }
+  };
+
+  const handleFilterMissionChapter = (e: any) => {
+      console.log(e.target.value)
+      if (e.target.value != "") {
+          setSelectedMission(e.target.value);
+          handleChapter(e.target.value);
+          
+      }
+  };
+
+  const handleFilterMissionZone = (e: any) => {
+      console.log(e.target.value)
+      if (e.target.value != "") {
+          setSelectedZone(e.target.value);
+          
+      }
+  };
+
+ 
+
+  async function onSubmit() {
+
+    // console.log(values)
+    // const distid = districts.find((item) => item.dis_name === selectedDistrict)?.dis_id?.toString();
+    // const formdata = {
+    //   groupName: gpname,
+    //   countryId: countries.find((item) => item.cntry_name === selectedCountry)?.cntry_id,
+    //   stateId: states.find((item) => item.st_name === selectedState)?.st_id?.toString(),
+    //   corporationId: corporation.find((item) => item.cop_name === selectedCorp)?.cop_id?.toString(),
+    //   districtId: districts.find((item) => item.dis_name === selectedDistrict)?.dis_id?.toString(),
+    //   lsgdId: lsgd.find((item) => item.lsg_name === selectedLsgd)?.lsg_id ,
+    //   wardNo: distid ? wardNo:null,
+    //   city: city,
+    //   province: city,
+    //   groupTypeId: schoolCategory.find((item) => item.gp_cat_name === schoolcat)?.gp_cat_id,
+    //   location: location,
+    //   groupId: GpId
+    // }
+    // console.log(formdata)
+
+    // if (token) {
+    //   const response = await axios.post(`${apiURL}/adminEdit/updateGroupDetails`, formdata, {
+    //     headers: {
+    //       'Authorization': `Bearer ${token}`,
+    //       'Content-Type': 'application/json'
+    //     }
+    //   })
+    //   try {
+
+    //     if (response.data.success && response.status != 203) {
+    //       console.log(response)
+    //       toast({
+    //         title: "Data Successfully Updated.",
+    //         description: "",
+    //       });
+
+
+    //       setTimeout(function() {
+    //         window.location.reload();
+    //       }, 1800);
+
+
+
+    //     } else {
+    //       toast({
+    //         variant: "destructive",
+    //         title: "Oops, Something went wrong!",
+    //         description: "Please try again...",
+    //       });
+    //     }
+
+    //   } catch (error) {
+    //     toast({
+    //       variant: "destructive",
+    //       title: "Oops, Something went wrong!",
+    //       description: "Please try again...",
+    //     });
+
+    //   }
+    // };
+  }
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <div className="flex items-center justify-start gap-2 my-4 cursor-pointer text-primary ml-5">
+          <Edit />
+          <span className="text-base">Edit Group Type</span>
+        </div>
+      </DialogTrigger>
+      <DialogContent className="max-w-4xl overflow-y-scroll max-h-[98%]">
+        <DialogHeader>
+          <DialogTitle>Edit Group Type</DialogTitle>
+          <DialogDescription></DialogDescription>
+        </DialogHeader>
+        <div className="">
+          
+            <form
+              noValidate
+              onSubmit={onSubmit}
+              className=""
+            >
+              
+              <div  className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             
             <div>
                 <label>List of Classes</label>
@@ -776,6 +934,16 @@ const EditType = () => {
             
 
         </div>
-    );
-};
-export default EditType;
+
+              <div className="mt-3 justify-center item-center">
+                <Button type="submit">Submit</Button>
+              </div>
+
+            </form>
+        </div>
+        <DialogFooter>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
