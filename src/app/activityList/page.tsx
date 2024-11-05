@@ -9,7 +9,7 @@ import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import axios from 'axios';
-
+import PaginationComponent from './PageComponent';
 interface Acivitylist {
   personal_activity_id: number,
   login_id: number,
@@ -289,13 +289,6 @@ const ActivityList = () => {
     fetchfirstData();
   }, []);
 
-  const handlePageChange = (newPage: number) => {
-    if (newPage > 0 && newPage <= totalPages) {
-
-      setCurrentPage(newPage);
-    }
-  }
-
   useEffect(() => {
     async function fetchInitialData() {
       const countryResponse = await fetch(`${apiURL}/country`);
@@ -560,7 +553,65 @@ const ActivityList = () => {
       onDataSubmit(filterData);
     }
   }, [filterData]);
-
+  useEffect(() => {
+    async function fetchFirstData() {
+      try {
+        const responseAll = await fetch(`${apiURL}/activity/all?limit=10000000`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const dataAll = await responseAll.json();
+        const totalActivities = dataAll.activity ? dataAll.activity.length : 0;
+        
+        setTotalPages(Math.ceil(totalActivities / itemsPerPage));
+      } catch (error) {
+        console.error("Error fetching total activities:", error);
+      }
+    }
+  
+    fetchFirstData();
+  }, [itemsPerPage]);
+  
+  // Fetch data for the current page
+  useEffect(() => {
+    async function fetchDataForCurrentPage() {
+      try {
+        // Fetch countries
+        const countryResponse = await fetch(`${apiURL}/country`);
+        const countryData = await countryResponse.json();
+        setCountries(countryData.country);
+  
+        // Fetch activities for the current page
+        const response = await fetch(`${apiURL}/activity/all?page=${currentPage}&limit=${itemsPerPage}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+  
+        const result = await response.json();
+        setActivityList(result.activity || []); // Ensure it's an array
+      } catch (error) {
+        console.error('Error fetching page data:', error);
+        setActivityList([]); // Reset list on error
+      }
+    }
+  
+    fetchDataForCurrentPage();
+  }, [currentPage, itemsPerPage]);
+  
+  // Handle page change
+  const handlePageChange = (newPage: number) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
   const onSubmit = async (data: any) => {
     const dataWithIds: any = {};
     treeNo !== "" ? dataWithIds.treeNumber = parseInt(treeNo) : '';
@@ -613,7 +664,7 @@ const ActivityList = () => {
       {/* Search by Person Wise */}
       <div className='search1'>
         <h1 className='text-lg text-center m-3'>Search by Person Wise</h1>
-        <div className="mx-5 md:mx-9 lg:mx-16 border-2 border-gray-300 shadow-lg flex justify-center items-center bg-gray-100 rounded-lg">
+        <div className="mx-5 md:mx-9 lg:mx-16 border-2 border-gray-300 shadow-lg flex bg-gray-100 rounded-lg justify-center items-cente">
           <Form {...formPersonal}>
             <form onSubmit={formPersonal.handleSubmit(onSubmit)} noValidate className="space-y-8 w-full md:w-2/3">
               <div className="flex m-2 flex-col gap-4 md:flex-row md:m-5 justify-center items-center">
@@ -656,15 +707,15 @@ const ActivityList = () => {
       {/* Search by Country Wise */}
       <div className='search1'>
         <h1 className='text-lg text-center m-3'>Search by Country Wise</h1>
-        <div className="mx-5 md:mx-9 lg:mx-16 border-2 border-gray-300 shadow-lg flex justify-center items-center bg-gray-100 rounded-lg">
+        <div className="mx-5 md:mx-9 lg:mx-16 border-2 border-gray-300 shadow-lg bg-gray-100 rounded-lg p-4 justify-center items-cente">
           <Form {...formCountry}>
-            <form onSubmit={formCountry.handleSubmit(onSubmit)} noValidate className="space-y-4 w-full md:w-2/3">
-              <div className="flex m-1 flex-col gap-4 md:flex-row md:m-3 justify-center items-center">
+            <form onSubmit={formCountry.handleSubmit(onSubmit)} noValidate className="space-y-4 w-full">
+             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-items-center'>
                 <FormField
                   control={formCountry.control}
                   name="country"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="w-full">
                       <Select onValueChange={(value) => {
                         field.onChange(value);
                         setSelectedCountry(value);
@@ -691,7 +742,7 @@ const ActivityList = () => {
                     control={formCountry.control}
                     name="state"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="w-full">
                         <Select onValueChange={(value) => {
                           field.onChange(value);
                           setSelectedState(value);
@@ -719,7 +770,7 @@ const ActivityList = () => {
                     control={formCountry.control}
                     name="district"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="w-full">
                         <Select onValueChange={(value) => {
                           field.onChange(value);
                           setSelectedDistrict(value);
@@ -747,7 +798,7 @@ const ActivityList = () => {
                     control={formCountry.control}
                     name="district"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="w-full">
                         <FormControl>
                           <Input {...field} placeholder='District' />
                         </FormControl>
@@ -761,14 +812,14 @@ const ActivityList = () => {
                     control={formCountry.control}
                     name="corporation"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="w-full">
                         <Select onValueChange={(value) => {
                           field.onChange(value);
                           setSelectedCorp(value);
                         }} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Choose a corporation" />
+                              <SelectValue placeholder="Choose a block" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -789,7 +840,7 @@ const ActivityList = () => {
                     control={formCountry.control}
                     name="lsg"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="w-full">
                         <Select onValueChange={(value) => {
                           field.onChange(value);
                           setSelectedLsgd(value);
@@ -819,7 +870,7 @@ const ActivityList = () => {
                     control={formCountry.control}
                     name="wardNo"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="w-full">
                         <FormControl>
                           <Input type="number" {...field} placeholder='Ward Number' />
                         </FormControl>
@@ -834,7 +885,7 @@ const ActivityList = () => {
                     control={formCountry.control}
                     name="city"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="w-full">
                         <FormControl>
                           <Input {...field} placeholder='City / Province' />
                         </FormControl>
@@ -843,7 +894,7 @@ const ActivityList = () => {
                     )}
                   />
                 )}
-                <Button type="submit" className="w-full md:w-1/4 bg-primary mx-auto text-center">
+                <Button type="submit" className="w-full bg-primary mx-auto text-center">
                   Search
                 </Button>
               </div>
@@ -855,15 +906,15 @@ const ActivityList = () => {
       {/* Search by Group Wise */}
       <div className='search1 mb-5'>
         <h1 className='text-lg text-center m-3'>Search by Group Wise</h1>
-        <div className="mx-5 md:mx-9 lg:mx-16 border-2 border-gray-300 shadow-lg flex justify-center items-center bg-gray-100 rounded-lg">
+        <div className="mx-5 md:mx-9 lg:mx-16 border-2 border-gray-300 shadow-lg bg-gray-100 rounded-lg p-4">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} noValidate className="space-y-4 w-full md:w-2/3">
-              <div className="flex m-1 flex-col gap-4 md:flex-row md:m-3 justify-center items-center">
+            <form onSubmit={form.handleSubmit(onSubmit)} noValidate className="space-y-4 w-full">
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
                 <FormField
                   control={form.control}
                   name="grptype"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="w-full">
                       <Select onValueChange={(value) => {
                         field.onChange(value);
                         setSelectedGrpType(value);
@@ -892,7 +943,7 @@ const ActivityList = () => {
                     control={form.control}
                     name="schooltype"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="w-full">
                         <Select onValueChange={(value) => {
                           field.onChange(value);
                           setSelectschoolType(value);
@@ -925,7 +976,7 @@ const ActivityList = () => {
                       control={form.control}
                       name="missionarea"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="w-full">
                           <Select onValueChange={(value) => {
                             field.onChange(value);
                             setSelectMissionarea(value);
@@ -956,7 +1007,7 @@ const ActivityList = () => {
                       control={form.control}
                       name="missionchapter"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="w-full">
                           <Select onValueChange={(value) => {
                             field.onChange(value);
                             setSelectedMission(value);
@@ -985,7 +1036,7 @@ const ActivityList = () => {
                       control={form.control}
                       name="missionzone"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="w-full">
                           <Select onValueChange={(value) => {
                             field.onChange(value);
                             setSelectedZone(value);
@@ -1019,7 +1070,7 @@ const ActivityList = () => {
                       control={form.control}
                       name="state"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="w-full">
                           <Select onValueChange={(value) => {
                             field.onChange(value);
                             setSelectedStateGrp(value);
@@ -1046,7 +1097,7 @@ const ActivityList = () => {
                       control={form.control}
                       name="sahodaya"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="w-full">
                           <Select onValueChange={(value) => {
                             field.onChange(value);
                             setSelectSahodaya(value);
@@ -1080,7 +1131,7 @@ const ActivityList = () => {
                         control={form.control}
                         name="district"
                         render={({ field }) => (
-                          <FormItem>
+                          <FormItem className="w-full">
                             <Select onValueChange={(value) => {
                               field.onChange(value);
                               setSelectedDistrictGrp(value);
@@ -1107,7 +1158,7 @@ const ActivityList = () => {
                       control={form.control}
                       name="icdsblock"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="w-full">
                           <Select onValueChange={(value) => {
                             field.onChange(value);
                             handleIcds(value);
@@ -1135,7 +1186,7 @@ const ActivityList = () => {
                       control={form.control}
                       name="icdsproject"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="w-full">
                           <Select onValueChange={(value) => {
                             field.onChange(value);
 
@@ -1168,7 +1219,7 @@ const ActivityList = () => {
                         control={form.control}
                         name="district"
                         render={({ field }) => (
-                          <FormItem>
+                          <FormItem className="w-full">
                             <Select onValueChange={(value) => {
                               field.onChange(value);
                               setSelectedDistrictGrp(value);
@@ -1195,7 +1246,7 @@ const ActivityList = () => {
                       control={form.control}
                       name="edudistrict"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="w-full">
                           <Select onValueChange={(value) => {
                             field.onChange(value);
                             handleEduDistrict(value);
@@ -1223,7 +1274,7 @@ const ActivityList = () => {
                       control={form.control}
                       name="edusubdistrict"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="w-full">
                           <Select onValueChange={(value) => {
                             field.onChange(value);
 
@@ -1253,7 +1304,7 @@ const ActivityList = () => {
                   control={form.control}
                   name="subCategory"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="w-full">
                       <Select onValueChange={(value) => {
                         field.onChange(value);
                         setSelectedSubCategory(value);
@@ -1276,10 +1327,9 @@ const ActivityList = () => {
                   )}
                 />
                 {selectedGrpType !== "" && grpName && grpName.length > 0 && (
-                  <div className="w-1/2 mb-3 md:w-1/3 p-1 md:p-2 bg-white">
-                    <select
-                      className="w-full p-1 md:p-2 border border-black rounded-md bg-white focus:border-2 focus:border-[#3C6E1F]"
-
+                   <div className="w-full sm:col-span-2 md:col-span-1">
+                   <select
+                      className="w-full p-2 border border-black rounded-md bg-white focus:border-2 focus:border-[#3C6E1F]"
                       value={selectedgrpName}
                       onChange={(e) => setSelectedGrpName(e.target.value)}
                     >
@@ -1293,8 +1343,9 @@ const ActivityList = () => {
                   </div>
 
                 )}
+               
 
-                <Button type="submit" className="w-full md:w-1/4 bg-primary mx-auto text-center">
+                <Button type="submit" className="w-full bg-primary mx-auto text-center">
                   Search
                 </Button>
               </div>
@@ -1351,41 +1402,8 @@ const ActivityList = () => {
         </div>
       </div>
 
-
-      <div className="flex justify-center items-center space-x-2 my-4">
-        <button
-          className={currentPage === 1 ?
-            "text-white text-sm py-2 px-4 bg-[#6b6767] rounded-xl shadow-lg"
-            : "text-white text-sm py-2 px-4 bg-[#3C6E1F] rounded-xl shadow-lg"
-          }
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-
-        {/* Dynamically generate page numbers */}
-        {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
-          <span
-            key={page}
-            className={`text-xl cursor-pointer  text-gray-600 ${page === currentPage ? 'font-bold  ' : 'underline'}`}
-            onClick={() => handlePageChange(page)}
-          >
-            {page}
-          </span>
-        ))}
-
-        <button
-          className={currentPage === totalPages || totalPages === 1 ?
-            "text-white text-sm py-2 px-4 bg-[#6b6767] rounded-xl shadow-lg"
-            : "text-white text-sm py-2 px-4 bg-[#3C6E1F] rounded-xl shadow-lg"
-          }
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages || totalPages === 1}
-        >
-          Next
-        </button>
-      </div>
+      <PaginationComponent currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+     
       <Footer />
     </>
   );

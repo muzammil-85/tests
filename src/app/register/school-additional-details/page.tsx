@@ -386,7 +386,7 @@ const MultiSelectZodForm = () => {
       if (result) {
         toast({
           title: "Account created.",
-          description: "We've created your account for you.",
+          description: "ഇനി  കോഡിനേറ്റർ  USER  NAME  ഉം  PASSWORD ഉം കൊടുത്ത് LOGIN   ചെയ്യുക.",
         });
         router.push("/loginform");
       }
@@ -785,45 +785,45 @@ const MultiSelectZodForm = () => {
                   )}
                 />
 
-                <FormField
-                  control={multiForm.control}
-                  name="list_of_classes"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>List of Classes</FormLabel>
-                      <FormControl>
-                        <Input type="text" placeholder="LKG,UKG,1,2" {...field} required />
-                      </FormControl>
-                      <FormDescription> </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={multiForm.control}
-                  name="total_classes"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Total number of classes</FormLabel>
-                      <FormControl>
-                        <Input type="number" placeholder="" {...field} required />
-                      </FormControl>
-                      <FormDescription> </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <div className="flex justify-center">
-                  <Button type="submit" className="w-1/3 bg-primary">
-                    Submit
-                  </Button>
-                </div>
-              </form>
-            </Form>
-          </div>
-        </div>
+            {/* <FormField
+              control={multiForm.control}
+              name="list_of_classes"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>List of Classes</FormLabel>
+                  <FormControl>
+                    <Input type="text" placeholder="LKG,UKG,1,2" {...field} required/>
+                  </FormControl>
+                  <FormDescription> </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> */}
+            
+            <FormField
+              control={multiForm.control}
+              name="total_classes"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Total number of classes</FormLabel>
+                  <FormControl>
+                    <Input type="number" placeholder="" {...field} required/>
+                  </FormControl>
+                  <FormDescription> </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <div className="flex justify-center">
+              <Button type="submit" className="w-1/3 bg-primary">
+                Submit
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </div>
+    </div>
         <div className="w-full lg:w-1/3 flex items-center justify-center">
           <img
             src="/images/planting_trees_2.jpg"
