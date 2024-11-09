@@ -409,57 +409,12 @@ const handleFilterMobile = (e: any) => {
     }
 };
 
-const handleFilterChangeCntry = (e: any) => {
-    console.log(e.target.value)
-
-    setSelectedCntry(e.target.value); // Update dropdown value
-    fetchFilteredCntry(e.target.value);
-    setCurrentPage(1); // Reset to first page
-};
-
-const handleFilterChangeState = (e: any) => {
-    console.log(e.target.value)
-
-    setSelectedState(e.target.value); // Update dropdown value
-    fetchFilteredState(e.target.value);
-    setCurrentPage(1); // Reset to first page
-};
-
-const handleFilterChangeDistrict = (e: any) => {
-    console.log(e.target.value)
-
-    setSelectedDistrict(e.target.value); // Update dropdown value
-    fetchFilteredDistrict(e.target.value);
-    setCurrentPage(1); // Reset to first page
-};
-const handleFilterChangeCorp = (e: any) => {
-    console.log(e.target.value)
-
-    setSelectedCorp(e.target.value); // Update dropdown value
-    fetchFilteredCorp(e.target.value);
-    setCurrentPage(1); // Reset to first page
-};
-
-const handleFilterChangeLsgd = (e: any) => {
-    console.log(e.target.value)
-
-    setSelectedLsgd(e.target.value); // Update dropdown value
-    fetchFilteredLsgd(e.target.value);
-    setCurrentPage(1); // Reset to first page
-};
-
-// const handleFilterChangeWard = (e: any) => {
-//   console.log(e)
-//   setSelectedWard(e); // Update dropdown value
-//   fetchFilteredWard(e);
-//   setCurrentPage(1); // Reset to first page
-// };
 
 const fetchFilteredGrpName = async (value: string) => {
     if (token) {
         const response = await axios.post(
-            `${apiURL}/admin/adminChallenges?limit=${totalcount}`,
-            {},
+            `${apiURL}/admin/adminChallenges`,
+            {uploaderName:value},
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -472,13 +427,10 @@ const fetchFilteredGrpName = async (value: string) => {
                 console.log(response.data.Uploads)
                 console.log(value)
 
-                const filteredData = response.data.Uploads.filter(
-                    (item: { up_name: string; }) => item.up_name === value
-                );
-                console.log(filteredData)
+             
 
-                setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-                setRowData(filteredData);
+                setTotalPages(Math.ceil(response.data.Uploads.length / itemsPerPage));
+                setRowData(response.data.Uploads);
             } else {
                 setRowData([]);
             }
@@ -491,7 +443,7 @@ const fetchFilteredGrpName = async (value: string) => {
 const fetchFilteredEmail = async (value: string) => {
     if (token) {
         const response = await axios.post(
-            `${apiURL}/admin/adminChallenges?limit=${totalcount}`,
+            `${apiURL}/admin/adminChallenges`,
             {},
             {
                 headers: {
@@ -524,8 +476,8 @@ const fetchFilteredEmail = async (value: string) => {
 const fetchFilteredId = async (value: string) => {
     if (token) {
         const response = await axios.post(
-            `${apiURL}/admin/adminChallenges?limit=${totalcount}`,
-            {},
+            `${apiURL}/admin/adminChallenges`,
+            {treeNumber: parseInt(value)},
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -557,7 +509,7 @@ const fetchFilteredId = async (value: string) => {
 const fetchFilteredMobile = async (value: string) => {
     if (token) {
         const response = await axios.post(
-            `${apiURL}/admin/adminChallenges?limit=${totalcount}`,
+            `${apiURL}/admin/adminChallenges`,
             {},
             {
                 headers: {
@@ -587,546 +539,536 @@ const fetchFilteredMobile = async (value: string) => {
     }
 };
 
-const fetchFilteredCntry = async (value: string) => {
+const handleFilterChangeCntry = (e: any) => {
+    
+    
+    setSelectedCntry(e.target.value); // Update dropdown value
+    fetchFilteredCntry(e.target.value);
+    setCurrentPage(1); // Reset to first page
+  };
+
+  const handleFilterChangeState = (e: any) => {
+    
+    
+    setSelectedState(e.target.value); // Update dropdown value
+    fetchFilteredState(e.target.value);
+    setCurrentPage(1); // Reset to first page
+  };
+
+  const handleFilterChangeDistrict = (e: any) => {
+    
+    
+    setSelectedDistrict(e.target.value); // Update dropdown value
+    fetchFilteredDistrict(e.target.value);
+    setCurrentPage(1); // Reset to first page
+  };
+
+  const handleFilterChangeCorp = (e: any) => {
+    
+    
+    setSelectedCorp(e.target.value); // Update dropdown value
+    fetchFilteredCorp(e.target.value);
+    setCurrentPage(1); // Reset to first page
+  };
+
+  const handleFilterChangeLsgd = (e: any) => {
+    
+    
+    setSelectedLsgd(e.target.value); // Update dropdown value
+    fetchFilteredLsgd(e.target.value);
+    setCurrentPage(1); // Reset to first page
+  };
+  const handleFilterChangeWard = (e: any) => {
+    
+    
+    setSelectedWard(e); // Update dropdown value
+    fetchFilteredWard(e);
+    setCurrentPage(1); // Reset to first page
+  };
+
+
+
+  const fetchFilteredCntry = async (value: string) => {
     if (token) {
-        const response = await axios.post(
-            `${apiURL}/admin/adminChallenges?limit=${totalcount}`,
-            {},
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-        try {
-            if (response.data.success && response.status !== 203) {
-                console.log('filter')
-                console.log(response.data)
-                console.log(response.data.Uploads)
-                const filteredData = response.data.Uploads.filter(
-                    (item: { cntry_name: string; }) => item.cntry_name === value
-                );
-                console.log(filteredData)
-
-                setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-                setRowData(filteredData);
-            } else {
-                setRowData([]);
-            }
-        } catch (error) {
-            console.error("Error:", error);
+      const response = await axios.post(
+        `${apiURL}/admin/adminChallenges`,
+        {countryId:countries.find((item) => item.cntry_name === value)?.cntry_id},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
-    }
-};
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+        
+          
+        
 
-const fetchFilteredState = async (value: string) => {
+          setTotalPages(Math.ceil(response.data.Uploads.length / itemsPerPage));
+          setRowData(response.data.Uploads);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+
+  const fetchFilteredState = async (value: string) => {
     if (token) {
-        const response = await axios.post(
-            `${apiURL}/admin/adminChallenges?limit=${totalcount}`,
-            {},
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-        try {
-            if (response.data.success && response.status !== 203) {
-                console.log('filter')
-                console.log(response.data)
-                console.log(response.data.Uploads)
-                const filteredData = response.data.Uploads.filter(
-                    (item: { st_name: string; }) => item.st_name === value
-                );
-                console.log(filteredData)
-
-                setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-                setRowData(filteredData);
-            } else {
-                setRowData([]);
-            }
-        } catch (error) {
-            console.error("Error:", error);
+      const response = await axios.post(
+        `${apiURL}/admin/adminChallenges`,
+        {stateId:states.find((item) => item.st_name === value)?.st_id},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
-    }
-};
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+         
+          
+        
 
-const fetchFilteredDistrict = async (value: string) => {
+          setTotalPages(Math.ceil(response.data.Uploads.length / itemsPerPage));
+          setRowData(response.data.Uploads);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+
+  const fetchFilteredDistrict = async (value: string) => {
     if (token) {
-        const response = await axios.post(
-            `${apiURL}/admin/adminChallenges?limit=${totalcount}`,
-            {},
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-        try {
-            if (response.data.success && response.status !== 203) {
-                console.log('filter')
-                console.log(response.data)
-                console.log(response.data.Uploads)
-                const filteredData = response.data.Uploads.filter(
-                    (item: { dis_name: string; }) => item.dis_name === value
-                );
-                console.log(filteredData)
-
-                setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-                setRowData(filteredData);
-            } else {
-                setRowData([]);
-            }
-        } catch (error) {
-            console.error("Error:", error);
+      const response = await axios.post(
+        `${apiURL}/admin/adminChallenges`,
+        {districtId:districts.find((item) => item.dis_name === value)?.dis_id},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+          
+         
+
+          setTotalPages(Math.ceil(response.data.Uploads.length / itemsPerPage));
+          setRowData(response.data.Uploads);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
-};
-const fetchFilteredCorp = async (value: string) => {
+  };
+  const fetchFilteredCorp = async (value: string) => {
     if (token) {
-        const response = await axios.post(
-            `${apiURL}/admin/adminChallenges?limit=${totalcount}`,
-            {},
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-        try {
-            if (response.data.success && response.status !== 203) {
-                console.log('filter')
-                console.log(response.data)
-                console.log(response.data.Uploads)
-                const filteredData = response.data.Uploads.filter(
-                    (item: { cop_name: string; }) => item.cop_name === value
-                );
-                console.log(filteredData)
-
-                setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-                setRowData(filteredData);
-            } else {
-                setRowData([]);
-            }
-        } catch (error) {
-            console.error("Error:", error);
+      const response = await axios.post(
+        `${apiURL}/admin/adminChallenges`,
+        {corporationId:corporation.find((item) => item.cop_name === value)?.cop_id},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+          
+          
+        
+
+          setTotalPages(Math.ceil(response.data.Uploads.length / itemsPerPage));
+          setRowData(response.data.Uploads);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
-};
-const fetchFilteredLsgd = async (value: string) => {
+  };
+  const fetchFilteredLsgd = async (value: string) => {
     if (token) {
-        const response = await axios.post(
-            `${apiURL}/admin/adminChallenges?limit=${totalcount}`,
-            {},
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-        try {
-            if (response.data.success && response.status !== 203) {
-                console.log('filter')
-                console.log(response.data)
-                console.log(response.data.Uploads)
-                const filteredData = response.data.Uploads.filter(
-                    (item: { lsg_name: string; }) => item.lsg_name === value
-                );
-                console.log(filteredData)
-
-                setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-                setRowData(filteredData);
-            } else {
-                setRowData([]);
-            }
-        } catch (error) {
-            console.error("Error:", error);
+      const response = await axios.post(
+        `${apiURL}/admin/adminChallenges`,
+        {lsgdId:lsgd.find((item) => item.lsg_name === value)?.lsg_id},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+        
+         
+       
+
+          setTotalPages(Math.ceil(response.data.Uploads.length / itemsPerPage));
+          setRowData(response.data.Uploads);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
-};
+  };
+  const fetchFilteredWard = async (value: string) => {
+    if (token) {
+      const response = await axios.post(
+        `${apiURL}/admin/adminChallenges`,
+        {wardNo:parseInt(value)},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+         
+          
 
-//  const fetchFilteredWard = async (value: string) => {
-//     if (token) {
-//       const response = await axios.post(
-//         `${apiURL}/admin/adminChallenges?limit=${totalcount}`,
-//         {},
-//         {
-//           headers: {
-//             Authorization: `Bearer ${token}`,
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-//       try {
-//         if (response.data.success && response.status !== 203) {
-//           console.log('filter')
-//           console.log('hi',response.data)
-//           console.log(response.data.Uploads)
-//           const filteredData = response.data.Uploads.filter(
-//             (item: { us_ward: string; }) => item.us_ward === value
-//           );
-//           console.log(filteredData)
+          setTotalPages(Math.ceil(response.data.Uploads.length / itemsPerPage));
+          setRowData(response.data.Uploads);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
 
-//           setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-//           setRowData(filteredData);
-//         } else {
-//           setRowData([]);
-//         }
-//       } catch (error) {
-//         console.error("Error:", error);
-//       }
-//     }
-//   };
+  
 
-const handleFilterGrpType = (e: any) => {
+  
+
+  const handleFilterGrpType = (e: any) => {
     console.log(e.target.value)
     if (e != "") {
-        setGroupType(e.target.value);
-        fetchFilteredGrpType(e.target.value);
-        setCurrentPage(1); // Reset to first page
+      setGroupType(e.target.value);
+      fetchFilteredGrpType(e.target.value);
+      setCurrentPage(1); // Reset to first page
     }
-};
+  };
 
-const fetchFilteredGrpType = async (value: string) => {
+  const fetchFilteredGrpType = async (value: string) => {
     if (token) {
-        const response = await axios.post(
-            `${apiURL}/admin/adminChallenges?limit=${totalcount}`,
-            {},
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-        try {
-            if (response.data.success && response.status !== 203) {
-                console.log('filter')
-                console.log(response.data)
-                const filteredData = response.data.Uploads.filter(
-                    (item: { group_type: string; }) => item.group_type === value
-                );
-                console.log(filteredData)
-
-                setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-                setRowData(filteredData);
-            } else {
-                setRowData([]);
-            }
-        } catch (error) {
-            console.error("Error:", error);
+      const response = await axios.post(
+        `${apiURL}/admin/adminChallenges`,
+        {groupTypeId:category.find((item) => item.group_type === value)?.id},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
-    }
-};
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+          
 
-const handleFilterSchoolType = (e: any) => {
+          setTotalPages(Math.ceil(response.data.Uploads.length / itemsPerPage));
+          setRowData(response.data.Uploads);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+
+  const handleFilterSchoolType = (e: any) => {
     console.log(e.target.value)
     if (e.target.value != "") {
-        setSelectedSchoolType(e.target.value);
-        e.target.value === 'CBSE' ? setSelectedCountryGrp('India') : ''
-        e.target.value === 'General Education' || 'ICDS' ? setSelectedCountryGrp('India') : ''
-        e.target.value === 'General Education' || 'ICDS' ? setSelectedStateGrp('Kerala') : ''
-        fetchFilteredSchoolType(e.target.value);
-        setCurrentPage(1); // Reset to first page
+      setSelectedSchoolType(e.target.value);
+      e.target.value === 'CBSE' ? setSelectedCountryGrp('India') : ''
+      e.target.value === 'General Education' || 'ICDS' ? setSelectedCountryGrp('India') : ''
+      e.target.value === 'General Education' || 'ICDS' ? setSelectedStateGrp('Kerala') : ''
+      fetchFilteredSchoolType(e.target.value);
+      setCurrentPage(1); // Reset to first page
     }
-};
+  };
 
-const fetchFilteredSchoolType = async (value: string) => {
+  const fetchFilteredSchoolType = async (value: string) => {
     if (token) {
-        const response = await axios.post(
-            `${apiURL}/admin/adminChallenges?limit=${totalcount}`,
-            {},
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-        try {
-            if (response.data.success && response.status !== 203) {
-                console.log('filter')
-                console.log(response.data)
-                const filteredData = response.data.Uploads.filter(
-                    (item: { type_name: string; }) => item.type_name === value
-                );
-                console.log(filteredData)
-
-                setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-                setRowData(filteredData);
-            } else {
-                setRowData([]);
-            }
-        } catch (error) {
-            console.error("Error:", error);
+      const response = await axios.post(
+        `${apiURL}/admin/adminChallenges`,
+        {schoolTypeId:schoolType.find((item) => item.type_name === value)?.id},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
-    }
-};
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+          
 
-const handleFilterSchoolCategory = (e: any) => {
+          setTotalPages(Math.ceil(response.data.Uploads.length / itemsPerPage));
+          setRowData(response.data.Uploads);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+
+  const handleFilterSchoolCategory = (e: any) => {
     console.log(e.target.value)
     if (e.target.value != "") {
-        setSelectedSubCategory(e.target.value);
-        fetchFilteredSchoolCategory(e.target.value);
-        setCurrentPage(1); // Reset to first page
+      setSelectedSubCategory(e.target.value);
+      fetchFilteredSchoolCategory(e.target.value);
+      setCurrentPage(1); // Reset to first page
     }
-};
+  };
 
-const fetchFilteredSchoolCategory = async (value: string) => {
+  const fetchFilteredSchoolCategory = async (value: string) => {
     if (token) {
-        const response = await axios.post(
-            `${apiURL}/admin/adminChallenges?limit=${totalcount}`,
-            {},
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-        try {
-            if (response.data.success && response.status !== 203) {
-                console.log('filter')
-                console.log(response.data)
-                const filteredData = response.data.Uploads.filter(
-                    (item: { gp_cat_name: string; }) => item.gp_cat_name === value
-                );
-                console.log(filteredData)
-
-                setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-                setRowData(filteredData);
-            } else {
-                setRowData([]);
-            }
-        } catch (error) {
-            console.error("Error:", error);
+      const response = await axios.post(
+        `${apiURL}/admin/adminChallenges`,
+        {subCategoryId:subcategoryOptions.find((item) => item.gp_cat_name === value)?.gp_cat_id},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
-    }
-};
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+          
 
-const handleFilterSahodayaState = (e: any) => {
+          setTotalPages(Math.ceil(response.data.Uploads.length / itemsPerPage));
+          setRowData(response.data.Uploads);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+
+  const handleFilterSahodayaState = (e: any) => {
     console.log(e.target.value)
     if (e.target.value != "") {
-        setSelectedStateGrp(e.target.value);
-        setCurrentPage(1); // Reset to first page
+      setSelectedStateGrp(e.target.value);
+      setCurrentPage(1); // Reset to first page
     }
-};
+  };
 
-const handleFilterSahodaya = (e: any) => {
+  const handleFilterSahodaya = (e: any) => {
     console.log(e.target.value)
     if (e.target.value != "") {
-        setSelectSahodaya(e.target.value);
-        fetchFilteredSahodaya(e.target.value);
-        setCurrentPage(1); // Reset to first page
+      setSelectSahodaya(e.target.value);
+      fetchFilteredSahodaya(e.target.value);
+      setCurrentPage(1); // Reset to first page
     }
-};
+  };
 
-const fetchFilteredSahodaya = async (value: string) => {
+  const fetchFilteredSahodaya = async (value: string) => {
     if (token) {
-        const response = await axios.post(
-            `${apiURL}/admin/adminChallenges?limit=${totalcount}`,
-            {},
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-        try {
-            if (response.data.success && response.status !== 203) {
-                console.log('filter')
-                console.log(response.data)
-                const filteredData = response.data.Uploads.filter(
-                    (item: { sahodaya_name: string; }) => item.sahodaya_name === value
-                );
-                console.log(filteredData)
-
-                setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-                setRowData(filteredData);
-            } else {
-                setRowData([]);
-            }
-        } catch (error) {
-            console.error("Error:", error);
+      const response = await axios.post(
+        `${apiURL}/admin/adminChallenges`,
+        {sahodayaId:sahodaya.find((item) => item.sahodaya_name === value)?.sahodaya_id},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+          
+
+          setTotalPages(Math.ceil(response.data.Uploads.length / itemsPerPage));
+          setRowData(response.data.Uploads);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
-};
+  };
 
 
-const handleFilterEDistrict = (e: any) => {
+  const handleFilterEDistrict = (e: any) => {
     console.log(e.target.value)
     if (e.target.value != "") {
-        setSelectedDistrictGrp(e.target.value);
-        // fetchFilteredSahodaya(e.target.value);
-        setCurrentPage(1); // Reset to first page
+      setSelectedDistrictGrp(e.target.value);
+      // fetchFilteredSahodaya(e.target.value);
+      setCurrentPage(1); // Reset to first page
     }
-};
+  };
 
-const handleFilterEduDistrict = (e: any) => {
+  const handleFilterEduDistrict = (e: any) => {
     console.log(e.target.value)
     if (e.target.value != "") {
-        setSelecteduDistrict(e.target.value);
-        handleEduDistrict(e.target.value);
-        setCurrentPage(1); // Reset to first page
+      setSelecteduDistrict(e.target.value);
+      handleEduDistrict(e.target.value);
+      setCurrentPage(1); // Reset to first page
     }
-};
+  };
 
-const handleFilterEduSubDistrict = (e: any) => {
+  const handleFilterEduSubDistrict = (e: any) => {
     console.log(e.target.value)
     if (e.target.value != "") {
-        setSelecteduSubDistrict(e.target.value);
-        fetchFilteredEduSubDistrict(e.target.value);
-        setCurrentPage(1); // Reset to first page
+      setSelecteduSubDistrict(e.target.value);
+      fetchFilteredEduSubDistrict(e.target.value);
+      setCurrentPage(1); // Reset to first page
     }
-};
+  };
 
-const fetchFilteredEduSubDistrict = async (value: string) => {
+  const fetchFilteredEduSubDistrict = async (value: string) => {
     if (token) {
-        const response = await axios.post(
-            `${apiURL}/admin/adminChallenges?limit=${totalcount}`,
-            {},
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-        try {
-            if (response.data.success && response.status !== 203) {
-                console.log('filter')
-                console.log(response.data)
-                const filteredData = response.data.Uploads.filter(
-                    (item: { edu_sub_district_name: string; }) => item.edu_sub_district_name === value
-                );
-                console.log(filteredData)
-
-                setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-                setRowData(filteredData);
-            } else {
-                setRowData([]);
-            }
-        } catch (error) {
-            console.error("Error:", error);
+      const response = await axios.post(
+        `${apiURL}/admin/adminChallenges`,
+        {eduSubDistrictId:eduSubDistrict.find((item) => item.edu_sub_district_name === value)?.edu_sub_district_id},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+          
+
+          setTotalPages(Math.ceil(response.data.Uploads.length / itemsPerPage));
+          setRowData(response.data.Uploads);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
-};
+  };
 
 
-const handleFilterIcdsBlock = (e: any) => {
+  const handleFilterIcdsBlock = (e: any) => {
     console.log(e.target.value)
     if (e.target.value != "") {
-        setSelectIcdsBlock(e.target.value);
-        handleIcds(e.target.value);
-        setCurrentPage(1); // Reset to first page
+      setSelectIcdsBlock(e.target.value);
+      handleIcds(e.target.value);
+      setCurrentPage(1); // Reset to first page
     }
-};
+  };
 
-const handleFilterIcdsProject = (e: any) => {
+  const handleFilterIcdsProject = (e: any) => {
     console.log(e.target.value)
     if (e.target.value != "") {
-        setSelectIcdsProject(e.target.value);
-        fetchFilteredIcdsProject(e.target.value);
-        setCurrentPage(1); // Reset to first page
+      setSelectIcdsProject(e.target.value);
+      fetchFilteredIcdsProject(e.target.value);
+      setCurrentPage(1); // Reset to first page
     }
-};
+  };
 
-const fetchFilteredIcdsProject = async (value: string) => {
+  const fetchFilteredIcdsProject = async (value: string) => {
     if (token) {
-        const response = await axios.post(
-            `${apiURL}/admin/adminChallenges?limit=${totalcount}`,
-            {},
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-        try {
-            if (response.data.success && response.status !== 203) {
-                console.log('filter')
-                console.log(response.data)
-                const filteredData = response.data.Uploads.filter(
-                    (item: { project_name: string; }) => item.project_name === value
-                );
-                console.log(filteredData)
-
-                setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-                setRowData(filteredData);
-            } else {
-                setRowData([]);
-            }
-        } catch (error) {
-            console.error("Error:", error);
+      const response = await axios.post(
+        `${apiURL}/admin/adminChallenges`,
+        {projectId:icdsProject.find((item) => item.project_name === value)?.project_id},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
-    }
-};
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+        
 
-const handleFilterMissionArea = (e: any) => {
+          setTotalPages(Math.ceil(response.data.Uploads.length / itemsPerPage));
+          setRowData(response.data.Uploads);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+
+  const handleFilterMissionArea = (e: any) => {
     console.log(e.target.value)
     if (e.target.value != "") {
-        setSelectMissionarea(e.target.value);
-        setCurrentPage(1); // Reset to first page
+      setSelectMissionarea(e.target.value);
+      setCurrentPage(1); // Reset to first page
     }
-};
+  };
 
-const handleFilterMissionChapter = (e: any) => {
+  const handleFilterMissionChapter = (e: any) => {
     console.log(e.target.value)
     if (e.target.value != "") {
-        setSelectedMission(e.target.value);
-        handleChapter(e.target.value);
-        setCurrentPage(1); // Reset to first page
+      setSelectedMission(e.target.value);
+      handleChapter(e.target.value);
+      setCurrentPage(1); // Reset to first page
     }
-};
+  };
 
-const handleFilterMissionZone = (e: any) => {
+  const handleFilterMissionZone = (e: any) => {
     console.log(e.target.value)
     if (e.target.value != "") {
-        setSelectedZone(e.target.value);
-        fetchFilteredMissionZone(e.target.value);
-        setCurrentPage(1); // Reset to first page
+      setSelectedZone(e.target.value);
+      fetchFilteredMissionZone(e.target.value);
+      setCurrentPage(1); // Reset to first page
     }
-};
+  };
 
-const fetchFilteredMissionZone = async (value: string) => {
+  const fetchFilteredMissionZone = async (value: string) => {
     if (token) {
-        const response = await axios.post(
-            `${apiURL}/admin/adminChallenges?limit=${totalcount}`,
-            {},
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-        try {
-            if (response.data.success && response.status !== 203) {
-                console.log('filter')
-                console.log(response.data)
-                const filteredData = response.data.Uploads.filter(
-                    (item: { zone_name: string; }) => item.zone_name === value
-                );
-                console.log(filteredData)
-
-                setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-                setRowData(filteredData);
-            } else {
-                setRowData([]);
-            }
-        } catch (error) {
-            console.error("Error:", error);
+      const response = await axios.post(
+        `${apiURL}/admin/adminChallenges`,
+        {zoneId:missionZone.find((item) => item.zone_name === value)?.zone_id},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
-    }
-};
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+          
 
+          setTotalPages(Math.ceil(response.data.Uploads.length / itemsPerPage));
+          setRowData(response.data.Uploads);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
 
   return (
     <div className=" bg-slate-100">

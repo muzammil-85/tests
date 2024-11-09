@@ -415,188 +415,59 @@ const AdminGrid = () => {
   };
 
   const handleFilterChangeCntry = (e: any) => {
-    console.log(e.target.value)
-
+    
+    
     setSelectedCntry(e.target.value); // Update dropdown value
     fetchFilteredCntry(e.target.value);
     setCurrentPage(1); // Reset to first page
   };
 
   const handleFilterChangeState = (e: any) => {
-    console.log(e.target.value)
-
+    
+    
     setSelectedState(e.target.value); // Update dropdown value
     fetchFilteredState(e.target.value);
     setCurrentPage(1); // Reset to first page
   };
 
   const handleFilterChangeDistrict = (e: any) => {
-    console.log(e.target.value)
-
+    
+    
     setSelectedDistrict(e.target.value); // Update dropdown value
     fetchFilteredDistrict(e.target.value);
     setCurrentPage(1); // Reset to first page
   };
-  const handleFilterChangeCorp = (e: any) => {
-    console.log(e.target.value)
 
+  const handleFilterChangeCorp = (e: any) => {
+    
+    
     setSelectedCorp(e.target.value); // Update dropdown value
     fetchFilteredCorp(e.target.value);
     setCurrentPage(1); // Reset to first page
   };
 
   const handleFilterChangeLsgd = (e: any) => {
-    console.log(e.target.value)
-
+    
+    
     setSelectedLsgd(e.target.value); // Update dropdown value
     fetchFilteredLsgd(e.target.value);
     setCurrentPage(1); // Reset to first page
   };
-
-  // const handleFilterChangeWard = (e: any) => {
-  //   console.log(e)
-  //   setSelectedWard(e); // Update dropdown value
-  //   fetchFilteredWard(e);
-  //   setCurrentPage(1); // Reset to first page
-  // };
-
-  const fetchFilteredCoordName = async (value: string) => {
-    if (token) {
-      const response = await axios.post(
-        `${apiURL}/admin/adminCordinatorsList?limit=${totalcount}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      try {
-        if (response.data.success && response.status !== 203) {
-          console.log(response.data.cordinatorList)
-          console.log(value)
-
-          const filteredData = response.data.cordinatorList.filter(
-            (item: { co_ord_name: string; }) => item.co_ord_name === value
-          );
-          console.log(filteredData)
-
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
-        } else {
-          setRowData([]);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
+  const handleFilterChangeWard = (e: any) => {
+    
+    
+    setSelectedWard(e); // Update dropdown value
+    fetchFilteredWard(e);
+    setCurrentPage(1); // Reset to first page
   };
 
-  const fetchFilteredEmail = async (value: string) => {
-    if (token) {
-      const response = await axios.post(
-        `${apiURL}/admin/adminCordinatorsList?limit=${totalcount}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      try {
-        if (response.data.success && response.status !== 203) {
-          console.log(response.data.cordinatorList)
-          console.log(value)
 
-          const filteredData = response.data.cordinatorList.filter(
-            (item: { co_email_id: string; }) => item.co_email_id === value
-          );
-          console.log(filteredData)
-
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
-        } else {
-          setRowData([]);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-  };
-
-  const fetchFilteredId = async (value: string) => {
-    if (token) {
-      const response = await axios.post(
-        `${apiURL}/admin/adminCordinatorsList?limit=${totalcount}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      try {
-        if (response.data.success && response.status !== 203) {
-          console.log(response.data.cordinatorList)
-          console.log(value)
-
-          const filteredData = response.data.cordinatorList.filter(
-            (item: { co_ord_id: string; }) => item.co_ord_id == value
-          );
-          console.log(filteredData)
-
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
-        } else {
-          setRowData([]);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-  };
-
-  const fetchFilteredMobile = async (value: string) => {
-    if (token) {
-      const response = await axios.post(
-        `${apiURL}/admin/adminCordinatorsList?limit=${totalcount}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      try {
-        if (response.data.success && response.status !== 203) {
-          console.log(response.data.cordinatorList)
-          console.log(value)
-
-          const filteredData = response.data.cordinatorList.filter(
-            (item: { co_ord_contact: string; }) => item.co_ord_contact == value
-          );
-          console.log(filteredData)
-
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
-        } else {
-          setRowData([]);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-  };
 
   const fetchFilteredCntry = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminCordinatorsList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminCordinatorsList`,
+        {countryId:countries.find((item) => item.cntry_name === value)?.cntry_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -606,16 +477,12 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          console.log(response.data.cordinatorList)
-          const filteredData = response.data.cordinatorList.filter(
-            (item: { cntry_name: string; }) => item.cntry_name === value
-          );
-          console.log(filteredData)
+        
+          
+        
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.cordinatorList.length / itemsPerPage));
+          setRowData(response.data.cordinatorList);
         } else {
           setRowData([]);
         }
@@ -628,8 +495,8 @@ const AdminGrid = () => {
   const fetchFilteredState = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminCordinatorsList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminCordinatorsList`,
+        {stateId:states.find((item) => item.st_name === value)?.st_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -639,16 +506,12 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          console.log(response.data.cordinatorList)
-          const filteredData = response.data.cordinatorList.filter(
-            (item: { st_name: string; }) => item.st_name === value
-          );
-          console.log(filteredData)
+         
+          
+        
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.cordinatorList.length / itemsPerPage));
+          setRowData(response.data.cordinatorList);
         } else {
           setRowData([]);
         }
@@ -661,8 +524,8 @@ const AdminGrid = () => {
   const fetchFilteredDistrict = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminCordinatorsList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminCordinatorsList`,
+        {districtId:districts.find((item) => item.dis_name === value)?.dis_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -672,16 +535,11 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          console.log(response.data.cordinatorList)
-          const filteredData = response.data.cordinatorList.filter(
-            (item: { dis_name: string; }) => item.dis_name === value
-          );
-          console.log(filteredData)
+          
+         
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.cordinatorList.length / itemsPerPage));
+          setRowData(response.data.cordinatorList);
         } else {
           setRowData([]);
         }
@@ -693,8 +551,8 @@ const AdminGrid = () => {
   const fetchFilteredCorp = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminCordinatorsList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminCordinatorsList`,
+        {corporationId:corporation.find((item) => item.cop_name === value)?.cop_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -704,16 +562,12 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          console.log(response.data.cordinatorList)
-          const filteredData = response.data.cordinatorList.filter(
-            (item: { cop_name: string; }) => item.cop_name === value
-          );
-          console.log(filteredData)
+          
+          
+        
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.cordinatorList.length / itemsPerPage));
+          setRowData(response.data.cordinatorList);
         } else {
           setRowData([]);
         }
@@ -725,8 +579,8 @@ const AdminGrid = () => {
   const fetchFilteredLsgd = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminCordinatorsList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminCordinatorsList`,
+        {lsgdId:lsgd.find((item) => item.lsg_name === value)?.lsg_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -736,16 +590,39 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          console.log(response.data.cordinatorList)
-          const filteredData = response.data.cordinatorList.filter(
-            (item: { lsg_name: string; }) => item.lsg_name === value
-          );
-          console.log(filteredData)
+        
+         
+       
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.cordinatorList.length / itemsPerPage));
+          setRowData(response.data.cordinatorList);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+  const fetchFilteredWard = async (value: string) => {
+    if (token) {
+      const response = await axios.post(
+        `${apiURL}/admin/adminCordinatorsList`,
+        {wardNo:parseInt(value)},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+         
+          
+
+          setTotalPages(Math.ceil(response.data.cordinatorList.length / itemsPerPage));
+          setRowData(response.data.cordinatorList);
         } else {
           setRowData([]);
         }
@@ -755,39 +632,117 @@ const AdminGrid = () => {
     }
   };
 
-  //  const fetchFilteredWard = async (value: string) => {
-  //     if (token) {
-  //       const response = await axios.post(
-  //         `${apiURL}/admin/adminCordinatorsList?limit=${totalcount}`,
-  //         {},
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //             "Content-Type": "application/json",
-  //           },
-  //         }
-  //       );
-  //       try {
-  //         if (response.data.success && response.status !== 203) {
-  //           console.log('filter')
-  //           console.log('hi',response.data)
-  //           console.log(response.data.cordinatorList)
-  //           const filteredData = response.data.cordinatorList.filter(
-  //             (item: { us_ward: string; }) => item.us_ward === value
-  //           );
-  //           console.log(filteredData)
+  const fetchFilteredCoordName = async (value: string) => {
+    if (token) {
+      const response = await axios.post(
+        `${apiURL}/admin/adminCordinatorsList`,
+        {cordinatorName:value},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+          
+          setTotalPages(Math.ceil(response.data.cordinatorList.length / itemsPerPage));
+          setRowData(response.data.cordinatorList);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
 
-  //           setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-  //           setRowData(filteredData);
-  //         } else {
-  //           setRowData([]);
-  //         }
-  //       } catch (error) {
-  //         console.error("Error:", error);
-  //       }
-  //     }
-  //   };
+  const fetchFilteredEmail = async (value: string) => {
+    if (token) {
+      const response = await axios.post(
+        `${apiURL}/admin/adminCordinatorsList`,
+        {emailId:value},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+          console.log(response.data.cordinatorList)
+          console.log(value)
 
+          
+
+          setTotalPages(Math.ceil(response.data.cordinatorList.length / itemsPerPage));
+          setRowData(response.data.cordinatorList);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+
+  const fetchFilteredId = async (value: string) => {
+    if (token) {
+      const response = await axios.post(
+        `${apiURL}/admin/adminCordinatorsList`,
+        {cordinatorId:parseInt(value)},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+          
+
+          setTotalPages(Math.ceil(response.data.cordinatorList.length / itemsPerPage));
+          setRowData(response.data.cordinatorList);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+
+  const fetchFilteredMobile = async (value: string) => {
+    if (token) {
+      const response = await axios.post(
+        `${apiURL}/admin/adminCordinatorsList`,
+        {mobile:value},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+          
+
+          setTotalPages(Math.ceil(response.data.cordinatorList.length / itemsPerPage));
+          setRowData(response.data.cordinatorList);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+
+  
   const handleFilterGrpType = (e: any) => {
     console.log(e.target.value)
     if (e != "") {
@@ -800,8 +755,8 @@ const AdminGrid = () => {
   const fetchFilteredGrpType = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminCordinatorsList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminCordinatorsList`,
+        {groupTypeId:category.find((item) => item.group_type === value)?.id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -811,15 +766,10 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          const filteredData = response.data.cordinatorList.filter(
-            (item: { group_type: string; }) => item.group_type === value
-          );
-          console.log(filteredData)
+          
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.cordinatorList.length / itemsPerPage));
+          setRowData(response.data.cordinatorList);
         } else {
           setRowData([]);
         }
@@ -844,8 +794,8 @@ const AdminGrid = () => {
   const fetchFilteredSchoolType = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminCordinatorsList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminCordinatorsList`,
+        {schoolTypeId:schoolType.find((item) => item.type_name === value)?.id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -855,15 +805,10 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          const filteredData = response.data.cordinatorList.filter(
-            (item: { type_name: string; }) => item.type_name === value
-          );
-          console.log(filteredData)
+          
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.cordinatorList.length / itemsPerPage));
+          setRowData(response.data.cordinatorList);
         } else {
           setRowData([]);
         }
@@ -885,8 +830,8 @@ const AdminGrid = () => {
   const fetchFilteredSchoolCategory = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminCordinatorsList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminCordinatorsList`,
+        {subCategoryId:subcategoryOptions.find((item) => item.gp_cat_name === value)?.gp_cat_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -896,15 +841,10 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          const filteredData = response.data.cordinatorList.filter(
-            (item: { gp_cat_name: string; }) => item.gp_cat_name === value
-          );
-          console.log(filteredData)
+          
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.cordinatorList.length / itemsPerPage));
+          setRowData(response.data.cordinatorList);
         } else {
           setRowData([]);
         }
@@ -934,8 +874,8 @@ const AdminGrid = () => {
   const fetchFilteredSahodaya = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminCordinatorsList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminCordinatorsList`,
+        {sahodayaId:sahodaya.find((item) => item.sahodaya_name === value)?.sahodaya_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -945,15 +885,10 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          const filteredData = response.data.cordinatorList.filter(
-            (item: { sahodaya_name: string; }) => item.sahodaya_name === value
-          );
-          console.log(filteredData)
+          
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.cordinatorList.length / itemsPerPage));
+          setRowData(response.data.cordinatorList);
         } else {
           setRowData([]);
         }
@@ -994,8 +929,8 @@ const AdminGrid = () => {
   const fetchFilteredEduSubDistrict = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminCordinatorsList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminCordinatorsList`,
+        {eduSubDistrictId:eduSubDistrict.find((item) => item.edu_sub_district_name === value)?.edu_sub_district_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -1005,15 +940,10 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          const filteredData = response.data.cordinatorList.filter(
-            (item: { edu_sub_district_name: string; }) => item.edu_sub_district_name === value
-          );
-          console.log(filteredData)
+          
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.cordinatorList.length / itemsPerPage));
+          setRowData(response.data.cordinatorList);
         } else {
           setRowData([]);
         }
@@ -1045,8 +975,8 @@ const AdminGrid = () => {
   const fetchFilteredIcdsProject = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminCordinatorsList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminCordinatorsList`,
+        {projectId:icdsProject.find((item) => item.project_name === value)?.project_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -1056,15 +986,10 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          const filteredData = response.data.cordinatorList.filter(
-            (item: { project_name: string; }) => item.project_name === value
-          );
-          console.log(filteredData)
+        
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.cordinatorList.length / itemsPerPage));
+          setRowData(response.data.cordinatorList);
         } else {
           setRowData([]);
         }
@@ -1103,8 +1028,8 @@ const AdminGrid = () => {
   const fetchFilteredMissionZone = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminCordinatorsList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminCordinatorsList`,
+        {zoneId:missionZone.find((item) => item.zone_name === value)?.zone_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -1114,15 +1039,10 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          const filteredData = response.data.cordinatorList.filter(
-            (item: { zone_name: string; }) => item.zone_name === value
-          );
-          console.log(filteredData)
+          
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.cordinatorList.length / itemsPerPage));
+          setRowData(response.data.cordinatorList);
         } else {
           setRowData([]);
         }
@@ -1292,7 +1212,7 @@ const AdminGrid = () => {
 
                   {selectedDistrict != "" ?
 
-                    <div className="flex items-center mb-3 space-x-2">
+                    <><div className="flex items-center mb-3 space-x-2">
                       <label htmlFor="groupFilter" className="text-sm font-medium">
                         Lsgd:
                       </label>
@@ -1309,23 +1229,22 @@ const AdminGrid = () => {
                           </option>
                         ))}
                       </select>
-                    </div>
-                    //  <div>
-                    //   <label>Ward No</label>
-                    //   <div className="flex mb-3">
-                    //     <input
-                    //       className="border px-2 h-10 text-sm border-gray-950 rounded-md shadow-sm focus:outline-none focus:ring-green-700 focus:border-green-700 "
-                    //       value={selectedWard}
-                    //       onChange={(e) => setSelectedWard(e.target.value)} // Update the state directly
-                    //     />
-                    //     <button
-                    //       className="text-white ml-2 text-sm py-2 px-4 bg-[#3C6E1F] rounded-xl shadow-lg"
-                    //       onClick={() => handleFilterChangeWard(selectedWard)}
-                    //     >
-                    //       Search
-                    //     </button>
-                    //   </div> 
-                    // </div>
+                    </div><div>
+                        <label>Ward No</label>
+                        <div className="flex mb-3">
+                          <input
+                            className="border px-2 h-10 text-sm border-gray-950 rounded-md shadow-sm focus:outline-none focus:ring-green-700 focus:border-green-700 "
+                            value={selectedWard}
+                            onChange={(e) => setSelectedWard(e.target.value)} // Update the state directly
+                          />
+                          <button
+                            className="text-white ml-2 text-sm py-2 px-4 bg-[#3C6E1F] rounded-xl shadow-lg"
+                            onClick={() => handleFilterChangeWard(selectedWard)}
+                          >
+                            Search
+                          </button>
+                        </div>
+                      </div></>
                     : ''}
                 </> : ''}
             </> : ''}
@@ -1351,7 +1270,7 @@ const AdminGrid = () => {
 
         </select>
       </div>
-      {selectedSubCategory !== 'College' && grouptype === 'School' && (
+      {grouptype === 'School' && (
         <>
       <div className="flex items-center mb-3 space-x-2">
         <label htmlFor="groupFilter" className="text-sm font-medium">

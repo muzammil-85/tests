@@ -246,7 +246,7 @@ const AdminGrid = () => {
   };
   
   const handleFilterChangeCntry = (e: any) => {
-    console.log(e.target.value)
+    
     
     setSelectedCntry(e.target.value); // Update dropdown value
     fetchFilteredCntry(e.target.value);
@@ -254,7 +254,7 @@ const AdminGrid = () => {
   };
 
   const handleFilterChangeState = (e: any) => {
-    console.log(e.target.value)
+    
     
     setSelectedState(e.target.value); // Update dropdown value
     fetchFilteredState(e.target.value);
@@ -262,14 +262,15 @@ const AdminGrid = () => {
   };
 
   const handleFilterChangeDistrict = (e: any) => {
-    console.log(e.target.value)
+    
     
     setSelectedDistrict(e.target.value); // Update dropdown value
     fetchFilteredDistrict(e.target.value);
     setCurrentPage(1); // Reset to first page
   };
+
   const handleFilterChangeCorp = (e: any) => {
-    console.log(e.target.value)
+    
     
     setSelectedCorp(e.target.value); // Update dropdown value
     fetchFilteredCorp(e.target.value);
@@ -277,25 +278,207 @@ const AdminGrid = () => {
   };
 
   const handleFilterChangeLsgd = (e: any) => {
-    console.log(e.target.value)
+    
     
     setSelectedLsgd(e.target.value); // Update dropdown value
     fetchFilteredLsgd(e.target.value);
     setCurrentPage(1); // Reset to first page
   };
+  const handleFilterChangeWard = (e: any) => {
+    
+    
+    setSelectedWard(e); // Update dropdown value
+    fetchFilteredWard(e);
+    setCurrentPage(1); // Reset to first page
+  };
 
-  // const handleFilterChangeWard = (e: any) => {
-  //   console.log(e)
-  //   setSelectedWard(e); // Update dropdown value
-  //   fetchFilteredWard(e);
-  //   setCurrentPage(1); // Reset to first page
-  // };
+
+
+  const fetchFilteredCntry = async (value: string) => {
+    if (token) {
+      const response = await axios.post(
+        `${apiURL}/admin/adminUserList`,
+        {countryId:countries.find((item) => item.cntry_name === value)?.cntry_id},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+        
+          const filteredData = response.data.userList.filter(
+            (item: { cntry_name: string; }) => item.cntry_name === value
+          );
+        
+
+          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
+          setRowData(filteredData);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+
+  const fetchFilteredState = async (value: string) => {
+    if (token) {
+      const response = await axios.post(
+        `${apiURL}/admin/adminUserList`,
+        {stateId:states.find((item) => item.st_name === value)?.st_id},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+         
+          const filteredData = response.data.userList.filter(
+            (item: { st_name: string; }) => item.st_name === value
+          );
+        
+
+          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
+          setRowData(filteredData);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+
+  const fetchFilteredDistrict = async (value: string) => {
+    if (token) {
+      const response = await axios.post(
+        `${apiURL}/admin/adminUserList`,
+        {districtId:districts.find((item) => item.dis_name === value)?.dis_id},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+          
+          const filteredData = response.data.userList.filter(
+            (item: { dis_name: string; }) => item.dis_name === value
+          );
+         
+
+          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
+          setRowData(filteredData);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+  const fetchFilteredCorp = async (value: string) => {
+    if (token) {
+      const response = await axios.post(
+        `${apiURL}/admin/adminUserList`,
+        {corporationId:corporation.find((item) => item.cop_name === value)?.cop_id},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+          
+          const filteredData = response.data.userList.filter(
+            (item: { cop_name: string; }) => item.cop_name === value
+          );
+        
+
+          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
+          setRowData(filteredData);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+  const fetchFilteredLsgd = async (value: string) => {
+    if (token) {
+      const response = await axios.post(
+        `${apiURL}/admin/adminUserList`,
+        {lsgdId:lsgd.find((item) => item.lsg_name === value)?.lsg_id},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+        
+          const filteredData = response.data.userList.filter(
+            (item: { lsg_name: string; }) => item.lsg_name === value
+          );
+       
+
+          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
+          setRowData(filteredData);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+  const fetchFilteredWard = async (value: string) => {
+    if (token) {
+      const response = await axios.post(
+        `${apiURL}/admin/adminUserList`,
+        {wardNo:parseInt(value)},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+         
+          
+
+          setTotalPages(Math.ceil(response.data.userList.length / itemsPerPage));
+          setRowData(response.data.userList);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
 
   const fetchFilteredCoordName = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminUserList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminUserList`,
+        {cordinatorName:value},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -327,8 +510,8 @@ const AdminGrid = () => {
   const fetchFilteredEmail = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminUserList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminUserList`,
+        {email:value},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -360,8 +543,8 @@ const AdminGrid = () => {
   const fetchFilteredId = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminUserList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminUserList`,
+        {userId:parseInt(value)},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -374,13 +557,10 @@ const AdminGrid = () => {
           console.log(response.data.userList)
           console.log(value)
 
-          const filteredData = response.data.userList.filter(
-            (item: { us_id: string; }) => item.us_id === value
-          );
-          console.log(filteredData)
+          
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.userList.length / itemsPerPage));
+          setRowData(response.data.userList);
         } else {
           setRowData([]);
         }
@@ -393,8 +573,8 @@ const AdminGrid = () => {
   const fetchFilteredMobile = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminUserList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminUserList`,
+        {mobile:value},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -423,202 +603,7 @@ const AdminGrid = () => {
     }
   };
 
-  const fetchFilteredCntry = async (value: string) => {
-    if (token) {
-      const response = await axios.post(
-        `${apiURL}/admin/adminUserList?limit=${totalcount}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      try {
-        if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          console.log(response.data.userList)
-          const filteredData = response.data.userList.filter(
-            (item: { cntry_name: string; }) => item.cntry_name === value
-          );
-          console.log(filteredData)
-
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
-        } else {
-          setRowData([]);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-  };
-
-  const fetchFilteredState = async (value: string) => {
-    if (token) {
-      const response = await axios.post(
-        `${apiURL}/admin/adminUserList?limit=${totalcount}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      try {
-        if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          console.log(response.data.userList)
-          const filteredData = response.data.userList.filter(
-            (item: { st_name: string; }) => item.st_name === value
-          );
-          console.log(filteredData)
-
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
-        } else {
-          setRowData([]);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-  };
-
-  const fetchFilteredDistrict = async (value: string) => {
-    if (token) {
-      const response = await axios.post(
-        `${apiURL}/admin/adminUserList?limit=${totalcount}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      try {
-        if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          console.log(response.data.userList)
-          const filteredData = response.data.userList.filter(
-            (item: { dis_name: string; }) => item.dis_name === value
-          );
-          console.log(filteredData)
-
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
-        } else {
-          setRowData([]);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-  };
-  const fetchFilteredCorp = async (value: string) => {
-    if (token) {
-      const response = await axios.post(
-        `${apiURL}/admin/adminUserList?limit=${totalcount}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      try {
-        if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          console.log(response.data.userList)
-          const filteredData = response.data.userList.filter(
-            (item: { cop_name: string; }) => item.cop_name === value
-          );
-          console.log(filteredData)
-
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
-        } else {
-          setRowData([]);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-  };
-  const fetchFilteredLsgd = async (value: string) => {
-    if (token) {
-      const response = await axios.post(
-        `${apiURL}/admin/adminUserList?limit=${totalcount}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      try {
-        if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          console.log(response.data.userList)
-          const filteredData = response.data.userList.filter(
-            (item: { lsg_name: string; }) => item.lsg_name === value
-          );
-          console.log(filteredData)
-
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
-        } else {
-          setRowData([]);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-  };
-
-//  const fetchFilteredWard = async (value: string) => {
-//     if (token) {
-//       const response = await axios.post(
-//         `${apiURL}/admin/adminUserList?limit=${totalcount}`,
-//         {},
-//         {
-//           headers: {
-//             Authorization: `Bearer ${token}`,
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-//       try {
-//         if (response.data.success && response.status !== 203) {
-//           console.log('filter')
-//           console.log('hi',response.data)
-//           console.log(response.data.userList)
-//           const filteredData = response.data.userList.filter(
-//             (item: { us_ward: string; }) => item.us_ward === value
-//           );
-//           console.log(filteredData)
-
-//           setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-//           setRowData(filteredData);
-//         } else {
-//           setRowData([]);
-//         }
-//       } catch (error) {
-//         console.error("Error:", error);
-//       }
-//     }
-//   };
-
+  
   return (
     <div className=" bg-slate-100">
       <button
@@ -779,40 +764,39 @@ const AdminGrid = () => {
 
       {selectedDistrict != "" ? 
       
-      <div className="flex items-center mb-3 space-x-2">
-        <label htmlFor="groupFilter" className="text-sm font-medium">
-          Lsgd:
-        </label>
-        <select
-          id="groupFilter"
-          value={selectedLsgd}
-          onChange={handleFilterChangeLsgd}
-          className="border border-gray-300 rounded p-1"
-        >
-          <option value="">Choose Lsgd</option>
-          {lsgd && lsgd.map((lsg) => (
-            <option key={lsg.lsg_id} value={lsg.lsg_name}>
-              {lsg.lsg_name}
-            </option>
-          ))}
-        </select>
-      </div>
-      //  <div>
-      //   <label>Ward No</label>
-      //   <div className="flex mb-3">
-      //     <input
-      //       className="border px-2 h-10 text-sm border-gray-950 rounded-md shadow-sm focus:outline-none focus:ring-green-700 focus:border-green-700 "
-      //       value={selectedWard}
-      //       onChange={(e) => setSelectedWard(e.target.value)} // Update the state directly
-      //     />
-      //     <button
-      //       className="text-white ml-2 text-sm py-2 px-4 bg-[#3C6E1F] rounded-xl shadow-lg"
-      //       onClick={() => handleFilterChangeWard(selectedWard)}
-      //     >
-      //       Search
-      //     </button>
-      //   </div> 
-      // </div>
+      <><div className="flex items-center mb-3 space-x-2">
+                      <label htmlFor="groupFilter" className="text-sm font-medium">
+                        Lsgd:
+                      </label>
+                      <select
+                        id="groupFilter"
+                        value={selectedLsgd}
+                        onChange={handleFilterChangeLsgd}
+                        className="border border-gray-300 rounded p-1"
+                      >
+                        <option value="">Choose Lsgd</option>
+                        {lsgd && lsgd.map((lsg) => (
+                          <option key={lsg.lsg_id} value={lsg.lsg_name}>
+                            {lsg.lsg_name}
+                          </option>
+                        ))}
+                      </select>
+                    </div><div>
+                        <label>Ward No</label>
+                        <div className="flex mb-3">
+                          <input
+                            className="border px-2 h-10 text-sm border-gray-950 rounded-md shadow-sm focus:outline-none focus:ring-green-700 focus:border-green-700 "
+                            value={selectedWard}
+                            onChange={(e) => setSelectedWard(e.target.value)} // Update the state directly
+                          />
+                          <button
+                            className="text-white ml-2 text-sm py-2 px-4 bg-[#3C6E1F] rounded-xl shadow-lg"
+                            onClick={() => handleFilterChangeWard(selectedWard)}
+                          >
+                            Search
+                          </button>
+                        </div>
+                      </div></>
       :''}
       </>:''}
       </>:''}

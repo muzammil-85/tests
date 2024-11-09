@@ -202,8 +202,8 @@ const AdminGrid = () => {
   const fetchFilteredDistrict = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminLsgdList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminLsgdList`,
+        {districtId:districts.find((item) => item.dis_name === value)?.dis_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -234,8 +234,8 @@ const AdminGrid = () => {
   const fetchFilteredCorp = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminLsgdList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminLsgdList`,
+        {corporationId:corporation.find((item) => item.cop_name === value)?.cop_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -266,8 +266,8 @@ const AdminGrid = () => {
   const fetchFilteredLsgd = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminLsgdList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminLsgdList`,
+        {lsgdId:lsgd.find((item) => item.lsg_name === value)?.lsg_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -412,57 +412,11 @@ const AdminGrid = () => {
     }
   };
 
-  const handleFilterChangeCntry = (e: any) => {
-    console.log(e.target.value)
-
-    setSelectedCntry(e.target.value); // Update dropdown value
-    fetchFilteredCntry(e.target.value);
-    setCurrentPage(1); // Reset to first page
-  };
-
-  const handleFilterChangeState = (e: any) => {
-    console.log(e.target.value)
-
-    setSelectedState(e.target.value); // Update dropdown value
-    fetchFilteredState(e.target.value);
-    setCurrentPage(1); // Reset to first page
-  };
-
-  const handleFilterChangeDistrict = (e: any) => {
-    console.log(e.target.value)
-
-    setSelectedDistrict(e.target.value); // Update dropdown value
-    fetchFilteredDistrict(e.target.value);
-    setCurrentPage(1); // Reset to first page
-  };
-  const handleFilterChangeCorp = (e: any) => {
-    console.log(e.target.value)
-
-    setSelectedCorp(e.target.value); // Update dropdown value
-    fetchFilteredCorp(e.target.value);
-    setCurrentPage(1); // Reset to first page
-  };
-
-  const handleFilterChangeLsgd = (e: any) => {
-    console.log(e.target.value)
-
-    setSelectedLsgd(e.target.value); // Update dropdown value
-    fetchFilteredLsgd(e.target.value);
-    setCurrentPage(1); // Reset to first page
-  };
-
-  // const handleFilterChangeWard = (e: any) => {
-  //   console.log(e)
-  //   setSelectedWard(e); // Update dropdown value
-  //   fetchFilteredWard(e);
-  //   setCurrentPage(1); // Reset to first page
-  // };
-
   const fetchFilteredGrpName = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminGroupList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminGroupList`,
+        {groupName:value},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -494,7 +448,7 @@ const AdminGrid = () => {
   const fetchFilteredEmail = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminGroupList?limit=${totalcount}`,
+        `${apiURL}/admin/adminGroupList`,
         {},
         {
           headers: {
@@ -527,8 +481,8 @@ const AdminGrid = () => {
   const fetchFilteredId = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminGroupList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminGroupList`,
+        {groupId:parseInt(value)},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -560,7 +514,7 @@ const AdminGrid = () => {
   const fetchFilteredMobile = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminGroupList?limit=${totalcount}`,
+        `${apiURL}/admin/adminGroupList`,
         {},
         {
           headers: {
@@ -590,11 +544,60 @@ const AdminGrid = () => {
     }
   };
 
+  const handleFilterChangeCntry = (e: any) => {
+    
+    
+    setSelectedCntry(e.target.value); // Update dropdown value
+    fetchFilteredCntry(e.target.value);
+    setCurrentPage(1); // Reset to first page
+  };
+
+  const handleFilterChangeState = (e: any) => {
+    
+    
+    setSelectedState(e.target.value); // Update dropdown value
+    fetchFilteredState(e.target.value);
+    setCurrentPage(1); // Reset to first page
+  };
+
+  const handleFilterChangeDistrict = (e: any) => {
+    
+    
+    setSelectedDistrict(e.target.value); // Update dropdown value
+    fetchFilteredDistrict(e.target.value);
+    setCurrentPage(1); // Reset to first page
+  };
+
+  const handleFilterChangeCorp = (e: any) => {
+    
+    
+    setSelectedCorp(e.target.value); // Update dropdown value
+    fetchFilteredCorp(e.target.value);
+    setCurrentPage(1); // Reset to first page
+  };
+
+  const handleFilterChangeLsgd = (e: any) => {
+    
+    
+    setSelectedLsgd(e.target.value); // Update dropdown value
+    fetchFilteredLsgd(e.target.value);
+    setCurrentPage(1); // Reset to first page
+  };
+  const handleFilterChangeWard = (e: any) => {
+    
+    
+    setSelectedWard(e); // Update dropdown value
+    fetchFilteredWard(e);
+    setCurrentPage(1); // Reset to first page
+  };
+
+
+
   const fetchFilteredCntry = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminGroupList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminGroupList`,
+        {countryId:countries.find((item) => item.cntry_name === value)?.cntry_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -604,16 +607,12 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          console.log(response.data.groupList)
-          const filteredData = response.data.groupList.filter(
-            (item: { cntry_name: string; }) => item.cntry_name === value
-          );
-          console.log(filteredData)
+        
+          
+        
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setRowData(response.data.groupList);
         } else {
           setRowData([]);
         }
@@ -626,8 +625,8 @@ const AdminGrid = () => {
   const fetchFilteredState = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminGroupList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminGroupList`,
+        {stateId:states.find((item) => item.st_name === value)?.st_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -637,16 +636,12 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          console.log(response.data.groupList)
-          const filteredData = response.data.groupList.filter(
-            (item: { st_name: string; }) => item.st_name === value
-          );
-          console.log(filteredData)
+         
+          
+        
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setRowData(response.data.groupList);
         } else {
           setRowData([]);
         }
@@ -659,8 +654,8 @@ const AdminGrid = () => {
   const fetchFilteredDistrict = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminGroupList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminGroupList`,
+        {districtId:districts.find((item) => item.dis_name === value)?.dis_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -670,16 +665,11 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          console.log(response.data.groupList)
-          const filteredData = response.data.groupList.filter(
-            (item: { dis_name: string; }) => item.dis_name === value
-          );
-          console.log(filteredData)
+          
+         
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setRowData(response.data.groupList);
         } else {
           setRowData([]);
         }
@@ -691,8 +681,8 @@ const AdminGrid = () => {
   const fetchFilteredCorp = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminGroupList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminGroupList`,
+        {corporationId:corporation.find((item) => item.cop_name === value)?.cop_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -702,16 +692,12 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          console.log(response.data.groupList)
-          const filteredData = response.data.groupList.filter(
-            (item: { cop_name: string; }) => item.cop_name === value
-          );
-          console.log(filteredData)
+          
+          
+        
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setRowData(response.data.groupList);
         } else {
           setRowData([]);
         }
@@ -723,8 +709,8 @@ const AdminGrid = () => {
   const fetchFilteredLsgd = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminGroupList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminGroupList`,
+        {lsgdId:lsgd.find((item) => item.lsg_name === value)?.lsg_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -734,16 +720,39 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          console.log(response.data.groupList)
-          const filteredData = response.data.groupList.filter(
-            (item: { lsg_name: string; }) => item.lsg_name === value
-          );
-          console.log(filteredData)
+        
+         
+       
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setRowData(response.data.groupList);
+        } else {
+          setRowData([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+  const fetchFilteredWard = async (value: string) => {
+    if (token) {
+      const response = await axios.post(
+        `${apiURL}/admin/adminGroupList`,
+        {wardNo:parseInt(value)},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+         
+          
+
+          setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setRowData(response.data.groupList);
         } else {
           setRowData([]);
         }
@@ -753,38 +762,9 @@ const AdminGrid = () => {
     }
   };
 
-  //  const fetchFilteredWard = async (value: string) => {
-  //     if (token) {
-  //       const response = await axios.post(
-  //         `${apiURL}/admin/adminGroupList?limit=${totalcount}`,
-  //         {},
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //             "Content-Type": "application/json",
-  //           },
-  //         }
-  //       );
-  //       try {
-  //         if (response.data.success && response.status !== 203) {
-  //           console.log('filter')
-  //           console.log('hi',response.data)
-  //           console.log(response.data.groupList)
-  //           const filteredData = response.data.groupList.filter(
-  //             (item: { us_ward: string; }) => item.us_ward === value
-  //           );
-  //           console.log(filteredData)
+  
 
-  //           setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-  //           setRowData(filteredData);
-  //         } else {
-  //           setRowData([]);
-  //         }
-  //       } catch (error) {
-  //         console.error("Error:", error);
-  //       }
-  //     }
-  //   };
+  
 
   const handleFilterGrpType = (e: any) => {
     console.log(e.target.value)
@@ -798,8 +778,8 @@ const AdminGrid = () => {
   const fetchFilteredGrpType = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminGroupList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminGroupList`,
+        {groupTypeId:category.find((item) => item.group_type === value)?.id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -809,15 +789,10 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          const filteredData = response.data.groupList.filter(
-            (item: { group_type: string; }) => item.group_type === value
-          );
-          console.log(filteredData)
+          
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setRowData(response.data.groupList);
         } else {
           setRowData([]);
         }
@@ -842,8 +817,8 @@ const AdminGrid = () => {
   const fetchFilteredSchoolType = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminGroupList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminGroupList`,
+        {schoolTypeId:schoolType.find((item) => item.type_name === value)?.id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -853,15 +828,10 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          const filteredData = response.data.groupList.filter(
-            (item: { type_name: string; }) => item.type_name === value
-          );
-          console.log(filteredData)
+          
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setRowData(response.data.groupList);
         } else {
           setRowData([]);
         }
@@ -883,8 +853,8 @@ const AdminGrid = () => {
   const fetchFilteredSchoolCategory = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminGroupList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminGroupList`,
+        {subCategoryId:subcategoryOptions.find((item) => item.gp_cat_name === value)?.gp_cat_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -894,15 +864,10 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          const filteredData = response.data.groupList.filter(
-            (item: { gp_cat_name: string; }) => item.gp_cat_name === value
-          );
-          console.log(filteredData)
+          
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setRowData(response.data.groupList);
         } else {
           setRowData([]);
         }
@@ -932,8 +897,8 @@ const AdminGrid = () => {
   const fetchFilteredSahodaya = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminGroupList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminGroupList`,
+        {sahodayaId:sahodaya.find((item) => item.sahodaya_name === value)?.sahodaya_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -943,15 +908,10 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          const filteredData = response.data.groupList.filter(
-            (item: { sahodaya_name: string; }) => item.sahodaya_name === value
-          );
-          console.log(filteredData)
+          
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setRowData(response.data.groupList);
         } else {
           setRowData([]);
         }
@@ -992,8 +952,8 @@ const AdminGrid = () => {
   const fetchFilteredEduSubDistrict = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminGroupList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminGroupList`,
+        {eduSubDistrictId:eduSubDistrict.find((item) => item.edu_sub_district_name === value)?.edu_sub_district_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -1003,15 +963,10 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          const filteredData = response.data.groupList.filter(
-            (item: { edu_sub_district_name: string; }) => item.edu_sub_district_name === value
-          );
-          console.log(filteredData)
+          
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setRowData(response.data.groupList);
         } else {
           setRowData([]);
         }
@@ -1043,8 +998,8 @@ const AdminGrid = () => {
   const fetchFilteredIcdsProject = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminGroupList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminGroupList`,
+        {projectId:icdsProject.find((item) => item.project_name === value)?.project_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -1054,15 +1009,10 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          const filteredData = response.data.groupList.filter(
-            (item: { project_name: string; }) => item.project_name === value
-          );
-          console.log(filteredData)
+        
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setRowData(response.data.groupList);
         } else {
           setRowData([]);
         }
@@ -1101,8 +1051,8 @@ const AdminGrid = () => {
   const fetchFilteredMissionZone = async (value: string) => {
     if (token) {
       const response = await axios.post(
-        `${apiURL}/admin/adminGroupList?limit=${totalcount}`,
-        {},
+        `${apiURL}/admin/adminGroupList`,
+        {zoneId:missionZone.find((item) => item.zone_name === value)?.zone_id},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -1112,15 +1062,10 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log('filter')
-          console.log(response.data)
-          const filteredData = response.data.groupList.filter(
-            (item: { zone_name: string; }) => item.zone_name === value
-          );
-          console.log(filteredData)
+          
 
-          setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
-          setRowData(filteredData);
+          setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setRowData(response.data.groupList);
         } else {
           setRowData([]);
         }
@@ -1129,7 +1074,6 @@ const AdminGrid = () => {
       }
     }
   };
-
 
   return (
     <div className=" bg-slate-100">
@@ -1350,7 +1294,7 @@ const AdminGrid = () => {
 
         </select>
       </div>
-      {selectedSubCategory !== 'College' && grouptype === 'School' && (
+      { grouptype === 'School' && (
         <>
       <div className="flex items-center mb-3 space-x-2">
         <label htmlFor="groupFilter" className="text-sm font-medium">

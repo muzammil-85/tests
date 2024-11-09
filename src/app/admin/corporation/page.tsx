@@ -165,8 +165,8 @@ const handleFilterChangeCorp = (e: any) => {
 const fetchFilteredDistrict = async (value: string) => {
   if (token) {
       const response = await axios.post(
-          `${apiURL}/admin/adminCorporationList?limit=${totalcount}`,
-          {},
+          `${apiURL}/admin/adminCorporationList`,
+          {districtId:districts.find((item) => item.dis_name === value)?.dis_id},
           {
               headers: {
                   Authorization: `Bearer ${token}`,
@@ -197,8 +197,8 @@ const fetchFilteredDistrict = async (value: string) => {
 const fetchFilteredCorp = async (value: string) => {
   if (token) {
       const response = await axios.post(
-          `${apiURL}/admin/adminCorporationList?limit=${totalcount}`,
-          {},
+          `${apiURL}/admin/adminCorporationList`,
+          { corporationId:corporation.find((item) => item.cop_name === value)?.cop_id},
           {
               headers: {
                   Authorization: `Bearer ${token}`,
