@@ -190,7 +190,7 @@ const EditType = () => {
         async function fetchData() {
             const categoryResponse = await fetch(`${apiURL}/category`);
             const categoryData = await categoryResponse.json();
-            console.log(categoryData.category)
+            
             setCategory(categoryData.category);
         }
         fetchData();
@@ -312,7 +312,7 @@ const EditType = () => {
 
     
     const handleFilterClub = (e: any) => {
-        console.log(e.target.value)
+        
         if (e != "") {
             setSelectClub(e.target.value);
         }
@@ -321,7 +321,7 @@ const EditType = () => {
    
 
     const handleFilterSchoolType = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectedSchoolType(e.target.value);
             e.target.value === 'CBSE' ? setSelectedCountryGrp('India') : ''
@@ -334,7 +334,7 @@ const EditType = () => {
    
 
     const handleFilterSchoolCategory = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectedSubCategory(e.target.value);
            
@@ -344,7 +344,7 @@ const EditType = () => {
     
 
     const handleFilterSahodayaState = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectedStateGrp(e.target.value);
           
@@ -352,7 +352,7 @@ const EditType = () => {
     };
 
     const handleFilterSahodaya = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectSahodaya(e.target.value);
             
@@ -363,7 +363,7 @@ const EditType = () => {
 
 
     const handleFilterEDistrict = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectedDistrictGrp(e.target.value);
            
@@ -371,7 +371,7 @@ const EditType = () => {
     };
 
     const handleFilterEduDistrict = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelecteduDistrict(e.target.value);
             handleEduDistrict(e.target.value);
@@ -380,7 +380,7 @@ const EditType = () => {
     };
 
     const handleFilterEduSubDistrict = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelecteduSubDistrict(e.target.value);
             
@@ -391,7 +391,7 @@ const EditType = () => {
 
 
     const handleFilterIcdsBlock = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectIcdsBlock(e.target.value);
             handleIcds(e.target.value);
@@ -400,7 +400,7 @@ const EditType = () => {
     };
 
     const handleFilterIcdsProject = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectIcdsProject(e.target.value);
             
@@ -410,7 +410,7 @@ const EditType = () => {
    
 
     const handleFilterMissionArea = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectMissionarea(e.target.value);
            
@@ -418,7 +418,7 @@ const EditType = () => {
     };
 
     const handleFilterMissionChapter = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectedMission(e.target.value);
             handleChapter(e.target.value);
@@ -427,7 +427,7 @@ const EditType = () => {
     };
 
     const handleFilterMissionZone = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectedZone(e.target.value);
             

@@ -306,7 +306,7 @@ const MultiSelectZodForm = () => {
   }, []);
 
   const handleFilterMissionArea = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectMissionarea(e.target.value);
 

@@ -211,7 +211,7 @@ const AdminGrid = () => {
           }
         })
 
-        console.log(response.data)
+        
         if (response.data.success && response.status != 203) {
           setTotalPages(Math.ceil(response.data.totalCount / itemsPerPage));
           setRowData(response.data.cordinatorList);
@@ -276,7 +276,7 @@ const AdminGrid = () => {
     async function fetchData() {
       const categoryResponse = await fetch(`${apiURL}/category`);
       const categoryData = await categoryResponse.json();
-      console.log(categoryData.category)
+      
       setCategory(categoryData.category);
     }
     fetchData();
@@ -382,7 +382,7 @@ const AdminGrid = () => {
   }
 
   const handleFilterCoordName = (e: any) => {
-    console.log(e)
+    
     if (e != "") {
       fetchFilteredCoordName(e);
       setCurrentPage(1); // Reset to first page
@@ -390,7 +390,7 @@ const AdminGrid = () => {
   };
 
   const handleFilterEmail = (e: any) => {
-    console.log(e)
+    
     if (e != "") {
 
       fetchFilteredEmail(e);
@@ -398,7 +398,7 @@ const AdminGrid = () => {
     }
   };
   const handleFilterId = (e: any) => {
-    console.log(e)
+    
     if (e != "") {
 
       fetchFilteredId(e);
@@ -406,7 +406,7 @@ const AdminGrid = () => {
     }
   };
   const handleFilterMobile = (e: any) => {
-    console.log(e)
+    
     if (e != "") {
 
       fetchFilteredMobile(e);
@@ -672,8 +672,7 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log(response.data.cordinatorList)
-          console.log(value)
+         
 
           
 
@@ -744,7 +743,7 @@ const AdminGrid = () => {
 
   
   const handleFilterGrpType = (e: any) => {
-    console.log(e.target.value)
+    
     if (e != "") {
       setGroupType(e.target.value);
       fetchFilteredGrpType(e.target.value);
@@ -780,7 +779,7 @@ const AdminGrid = () => {
   };
 
   const handleFilterSchoolType = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectedSchoolType(e.target.value);
       e.target.value === 'CBSE' ? setSelectedCountryGrp('India') : ''
@@ -819,7 +818,7 @@ const AdminGrid = () => {
   };
 
   const handleFilterSchoolCategory = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectedSubCategory(e.target.value);
       fetchFilteredSchoolCategory(e.target.value);
@@ -855,7 +854,7 @@ const AdminGrid = () => {
   };
 
   const handleFilterSahodayaState = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectedStateGrp(e.target.value);
       setCurrentPage(1); // Reset to first page
@@ -863,7 +862,7 @@ const AdminGrid = () => {
   };
 
   const handleFilterSahodaya = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectSahodaya(e.target.value);
       fetchFilteredSahodaya(e.target.value);
@@ -900,7 +899,7 @@ const AdminGrid = () => {
 
 
   const handleFilterEDistrict = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectedDistrictGrp(e.target.value);
       // fetchFilteredSahodaya(e.target.value);
@@ -909,7 +908,7 @@ const AdminGrid = () => {
   };
 
   const handleFilterEduDistrict = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelecteduDistrict(e.target.value);
       handleEduDistrict(e.target.value);
@@ -918,7 +917,7 @@ const AdminGrid = () => {
   };
 
   const handleFilterEduSubDistrict = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelecteduSubDistrict(e.target.value);
       fetchFilteredEduSubDistrict(e.target.value);
@@ -955,7 +954,7 @@ const AdminGrid = () => {
 
 
   const handleFilterIcdsBlock = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectIcdsBlock(e.target.value);
       handleIcds(e.target.value);
@@ -964,7 +963,7 @@ const AdminGrid = () => {
   };
 
   const handleFilterIcdsProject = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectIcdsProject(e.target.value);
       fetchFilteredIcdsProject(e.target.value);
@@ -1000,7 +999,7 @@ const AdminGrid = () => {
   };
 
   const handleFilterMissionArea = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectMissionarea(e.target.value);
       setCurrentPage(1); // Reset to first page
@@ -1008,7 +1007,7 @@ const AdminGrid = () => {
   };
 
   const handleFilterMissionChapter = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectedMission(e.target.value);
       handleChapter(e.target.value);
@@ -1017,7 +1016,7 @@ const AdminGrid = () => {
   };
 
   const handleFilterMissionZone = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectedZone(e.target.value);
       fetchFilteredMissionZone(e.target.value);

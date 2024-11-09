@@ -185,7 +185,7 @@ const AdminGrid = () => {
         async function fetchData() {
             const categoryResponse = await fetch(`${apiURL}/category`);
             const categoryData = await categoryResponse.json();
-            console.log(categoryData.category)
+            
             setCategory(categoryData.category);
         }
         fetchData();
@@ -291,7 +291,7 @@ const AdminGrid = () => {
     }
 
     const handleFilterGrpName = (e: any) => {
-        console.log(e)
+        
         if (e != "") {
             fetchFilteredGrpName(e);
             setCurrentPage(1); // Reset to first page
@@ -299,7 +299,7 @@ const AdminGrid = () => {
     };
 
     const handleFilterEmail = (e: any) => {
-        console.log(e)
+        
         if (e != "") {
 
             fetchFilteredEmail(e);
@@ -307,7 +307,7 @@ const AdminGrid = () => {
         }
     };
     const handleFilterId = (e: any) => {
-        console.log(e)
+        
         if (e != "") {
 
             fetchFilteredId(e);
@@ -315,7 +315,7 @@ const AdminGrid = () => {
         }
     };
     const handleFilterMobile = (e: any) => {
-        console.log(e)
+        
         if (e != "") {
 
             fetchFilteredMobile(e);
@@ -324,7 +324,7 @@ const AdminGrid = () => {
     };
 
     const handleFilterChangeCntry = (e: any) => {
-        console.log(e.target.value)
+        
 
         setSelectedCntry(e.target.value); // Update dropdown value
         fetchFilteredCntry(e.target.value);
@@ -332,7 +332,7 @@ const AdminGrid = () => {
     };
 
     const handleFilterChangeState = (e: any) => {
-        console.log(e.target.value)
+        
 
         setSelectedState(e.target.value); // Update dropdown value
         fetchFilteredState(e.target.value);
@@ -340,14 +340,14 @@ const AdminGrid = () => {
     };
 
     const handleFilterChangeDistrict = (e: any) => {
-        console.log(e.target.value)
+        
 
         setSelectedDistrict(e.target.value); // Update dropdown value
         fetchFilteredDistrict(e.target.value);
         setCurrentPage(1); // Reset to first page
     };
     const handleFilterChangeCorp = (e: any) => {
-        console.log(e.target.value)
+        
 
         setSelectedCorp(e.target.value); // Update dropdown value
         fetchFilteredCorp(e.target.value);
@@ -355,7 +355,7 @@ const AdminGrid = () => {
     };
 
     const handleFilterChangeLsgd = (e: any) => {
-        console.log(e.target.value)
+        
 
         setSelectedLsgd(e.target.value); // Update dropdown value
         fetchFilteredLsgd(e.target.value);
@@ -363,7 +363,7 @@ const AdminGrid = () => {
     };
 
     // const handleFilterChangeWard = (e: any) => {
-    //   console.log(e)
+    //   
     //   setSelectedWard(e); // Update dropdown value
     //   fetchFilteredWard(e);
     //   setCurrentPage(1); // Reset to first page
@@ -383,13 +383,13 @@ const AdminGrid = () => {
             );
             try {
                 if (response.data.success && response.status !== 203) {
-                    console.log(response.data.groupList)
-                    console.log(value)
+                   
+                    
 
                     const filteredData = response.data.groupList.filter(
                         (item: { gp_name: string; }) => item.gp_name === value
                     );
-                    console.log(filteredData)
+                    
 
                     setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
                     setRowData(filteredData);
@@ -416,13 +416,13 @@ const AdminGrid = () => {
             );
             try {
                 if (response.data.success && response.status !== 203) {
-                    console.log(response.data.groupList)
-                    console.log(value)
+                   
+                    
 
                     const filteredData = response.data.groupList.filter(
                         (item: { co_email_id: string; }) => item.co_email_id === value
                     );
-                    console.log(filteredData)
+                    
 
                     setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
                     setRowData(filteredData);
@@ -449,13 +449,13 @@ const AdminGrid = () => {
             );
             try {
                 if (response.data.success && response.status !== 203) {
-                    console.log(response.data.groupList)
-                    console.log(value)
+                   
+                    
 
                     const filteredData = response.data.groupList.filter(
                         (item: { gp_id: string; }) => item.gp_id == value
                     );
-                    console.log(filteredData)
+                    
 
                     setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
                     setRowData(filteredData);
@@ -482,13 +482,13 @@ const AdminGrid = () => {
             );
             try {
                 if (response.data.success && response.status !== 203) {
-                    console.log(response.data.groupList)
-                    console.log(value)
+                   
+                    
 
                     const filteredData = response.data.groupList.filter(
                         (item: { co_ord_contact: string; }) => item.co_ord_contact == value
                     );
-                    console.log(filteredData)
+                    
 
                     setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
                     setRowData(filteredData);
@@ -515,13 +515,13 @@ const AdminGrid = () => {
             );
             try {
                 if (response.data.success && response.status !== 203) {
-                    console.log('filter')
-                    console.log(response.data)
-                    console.log(response.data.groupList)
+                    
+                    
+                   
                     const filteredData = response.data.groupList.filter(
                         (item: { cntry_name: string; }) => item.cntry_name === value
                     );
-                    console.log(filteredData)
+                    
 
                     setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
                     setRowData(filteredData);
@@ -548,13 +548,13 @@ const AdminGrid = () => {
             );
             try {
                 if (response.data.success && response.status !== 203) {
-                    console.log('filter')
-                    console.log(response.data)
-                    console.log(response.data.groupList)
+                    
+                    
+                   
                     const filteredData = response.data.groupList.filter(
                         (item: { st_name: string; }) => item.st_name === value
                     );
-                    console.log(filteredData)
+                    
 
                     setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
                     setRowData(filteredData);
@@ -581,13 +581,13 @@ const AdminGrid = () => {
             );
             try {
                 if (response.data.success && response.status !== 203) {
-                    console.log('filter')
-                    console.log(response.data)
-                    console.log(response.data.groupList)
+                    
+                    
+                   
                     const filteredData = response.data.groupList.filter(
                         (item: { dis_name: string; }) => item.dis_name === value
                     );
-                    console.log(filteredData)
+                    
 
                     setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
                     setRowData(filteredData);
@@ -613,13 +613,13 @@ const AdminGrid = () => {
             );
             try {
                 if (response.data.success && response.status !== 203) {
-                    console.log('filter')
-                    console.log(response.data)
-                    console.log(response.data.groupList)
+                    
+                    
+                   
                     const filteredData = response.data.groupList.filter(
                         (item: { cop_name: string; }) => item.cop_name === value
                     );
-                    console.log(filteredData)
+                    
 
                     setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
                     setRowData(filteredData);
@@ -645,13 +645,13 @@ const AdminGrid = () => {
             );
             try {
                 if (response.data.success && response.status !== 203) {
-                    console.log('filter')
-                    console.log(response.data)
-                    console.log(response.data.groupList)
+                    
+                    
+                   
                     const filteredData = response.data.groupList.filter(
                         (item: { lsg_name: string; }) => item.lsg_name === value
                     );
-                    console.log(filteredData)
+                    
 
                     setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
                     setRowData(filteredData);
@@ -678,13 +678,13 @@ const AdminGrid = () => {
     //       );
     //       try {
     //         if (response.data.success && response.status !== 203) {
-    //           console.log('filter')
-    //           console.log('hi',response.data)
-    //           console.log(response.data.groupList)
+    //           
+    //         
+    //          
     //           const filteredData = response.data.groupList.filter(
     //             (item: { us_ward: string; }) => item.us_ward === value
     //           );
-    //           console.log(filteredData)
+    //           
 
     //           setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
     //           setRowData(filteredData);
@@ -698,7 +698,7 @@ const AdminGrid = () => {
     //   };
 
     const handleFilterGrpType = (e: any) => {
-        console.log(e.target.value)
+        
         if (e != "") {
             setGroupType(e.target.value);
             fetchFilteredGrpType(e.target.value);
@@ -720,12 +720,12 @@ const AdminGrid = () => {
             );
             try {
                 if (response.data.success && response.status !== 203) {
-                    console.log('filter')
-                    console.log(response.data)
+                    
+                    
                     const filteredData = response.data.groupList.filter(
                         (item: { group_type: string; }) => item.group_type === value
                     );
-                    console.log(filteredData)
+                    
 
                     setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
                     setRowData(filteredData);
@@ -739,7 +739,7 @@ const AdminGrid = () => {
     };
 
     const handleFilterSchoolType = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectedSchoolType(e.target.value);
             e.target.value === 'CBSE' ? setSelectedCountryGrp('India') : ''
@@ -764,12 +764,12 @@ const AdminGrid = () => {
             );
             try {
                 if (response.data.success && response.status !== 203) {
-                    console.log('filter')
-                    console.log(response.data)
+                    
+                    
                     const filteredData = response.data.groupList.filter(
                         (item: { type_name: string; }) => item.type_name === value
                     );
-                    console.log(filteredData)
+                    
 
                     setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
                     setRowData(filteredData);
@@ -783,7 +783,7 @@ const AdminGrid = () => {
     };
 
     const handleFilterSchoolCategory = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectedSubCategory(e.target.value);
             fetchFilteredSchoolCategory(e.target.value);
@@ -805,12 +805,12 @@ const AdminGrid = () => {
             );
             try {
                 if (response.data.success && response.status !== 203) {
-                    console.log('filter')
-                    console.log(response.data)
+                    
+                    
                     const filteredData = response.data.groupList.filter(
                         (item: { gp_cat_name: string; }) => item.gp_cat_name === value
                     );
-                    console.log(filteredData)
+                    
 
                     setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
                     setRowData(filteredData);
@@ -824,7 +824,7 @@ const AdminGrid = () => {
     };
 
     const handleFilterSahodayaState = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectedStateGrp(e.target.value);
             setCurrentPage(1); // Reset to first page
@@ -832,7 +832,7 @@ const AdminGrid = () => {
     };
 
     const handleFilterSahodaya = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectSahodaya(e.target.value);
             fetchFilteredSahodaya(e.target.value);
@@ -854,12 +854,12 @@ const AdminGrid = () => {
             );
             try {
                 if (response.data.success && response.status !== 203) {
-                    console.log('filter')
-                    console.log(response.data)
+                    
+                    
                     const filteredData = response.data.groupList.filter(
                         (item: { sahodaya_name: string; }) => item.sahodaya_name === value
                     );
-                    console.log(filteredData)
+                    
 
                     setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
                     setRowData(filteredData);
@@ -874,7 +874,7 @@ const AdminGrid = () => {
 
 
     const handleFilterEDistrict = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectedDistrictGrp(e.target.value);
             // fetchFilteredSahodaya(e.target.value);
@@ -883,7 +883,7 @@ const AdminGrid = () => {
     };
 
     const handleFilterEduDistrict = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelecteduDistrict(e.target.value);
             handleEduDistrict(e.target.value);
@@ -892,7 +892,7 @@ const AdminGrid = () => {
     };
 
     const handleFilterEduSubDistrict = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelecteduSubDistrict(e.target.value);
             fetchFilteredEduSubDistrict(e.target.value);
@@ -914,12 +914,12 @@ const AdminGrid = () => {
             );
             try {
                 if (response.data.success && response.status !== 203) {
-                    console.log('filter')
-                    console.log(response.data)
+                    
+                    
                     const filteredData = response.data.groupList.filter(
                         (item: { edu_sub_district_name: string; }) => item.edu_sub_district_name === value
                     );
-                    console.log(filteredData)
+                    
 
                     setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
                     setRowData(filteredData);
@@ -934,7 +934,7 @@ const AdminGrid = () => {
 
 
     const handleFilterIcdsBlock = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectIcdsBlock(e.target.value);
             handleIcds(e.target.value);
@@ -943,7 +943,7 @@ const AdminGrid = () => {
     };
 
     const handleFilterIcdsProject = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectIcdsProject(e.target.value);
             fetchFilteredIcdsProject(e.target.value); 
@@ -965,12 +965,12 @@ const AdminGrid = () => {
             );
             try {
                 if (response.data.success && response.status !== 203) {
-                    console.log('filter')
-                    console.log(response.data)
+                    
+                    
                     const filteredData = response.data.groupList.filter(
                         (item: { project_name: string; }) => item.project_name === value
                     );
-                    console.log(filteredData)
+                    
 
                     setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
                     setRowData(filteredData);
@@ -984,7 +984,7 @@ const AdminGrid = () => {
     };
 
     const handleFilterMissionArea = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectMissionarea(e.target.value);
             setCurrentPage(1); // Reset to first page
@@ -992,7 +992,7 @@ const AdminGrid = () => {
     };
 
     const handleFilterMissionChapter = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectedMission(e.target.value);
             handleChapter(e.target.value);
@@ -1001,7 +1001,7 @@ const AdminGrid = () => {
     };
 
     const handleFilterMissionZone = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectedZone(e.target.value);
             fetchFilteredMissionZone(e.target.value);
@@ -1023,12 +1023,12 @@ const AdminGrid = () => {
             );
             try {
                 if (response.data.success && response.status !== 203) {
-                    console.log('filter')
-                    console.log(response.data)
+                    
+                    
                     const filteredData = response.data.groupList.filter(
                         (item: { zone_name: string; }) => item.zone_name === value
                     );
-                    console.log(filteredData)
+                    
 
                     setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
                     setRowData(filteredData);

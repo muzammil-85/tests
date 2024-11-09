@@ -259,7 +259,7 @@ export function EditGrpTypeForm() {
         async function fetchData() {
             const categoryResponse = await fetch(`${apiURL}/category`);
             const categoryData = await categoryResponse.json();
-            console.log(categoryData.category)
+            
             setCategory(categoryData.category);
         }
         fetchData();
@@ -383,7 +383,7 @@ export function EditGrpTypeForm() {
 
 
     const handleFilterClub = (e: any) => {
-        console.log(e.target.value)
+        
         if (e != "") {
             setSelectClub(e.target.value);
         }
@@ -394,7 +394,7 @@ export function EditGrpTypeForm() {
     const handleFilterSchoolType = (e: any) => {
         if (typeof e === 'string') {
             if (e != "") {
-                // console.log(e)
+                // 
 
                 setSelectedSchoolType(e);
                 e === 'CBSE' ? setSelectedCountryGrp('India') : ''
@@ -418,7 +418,7 @@ export function EditGrpTypeForm() {
 
 
     const handleFilterSchoolCategory = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectedSubCategory(e.target.value);
 
@@ -428,7 +428,7 @@ export function EditGrpTypeForm() {
 
 
     const handleFilterSahodayaState = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectedStateGrp(e.target.value);
 
@@ -436,7 +436,7 @@ export function EditGrpTypeForm() {
     };
 
     const handleFilterSahodaya = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectSahodaya(e.target.value);
 
@@ -447,7 +447,7 @@ export function EditGrpTypeForm() {
 
 
     const handleFilterEDistrict = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectedDistrictGrp(e.target.value);
 
@@ -455,7 +455,7 @@ export function EditGrpTypeForm() {
     };
 
     const handleFilterEduDistrict = (e: any) => {
-        //   console.log(e)
+        //   
         if (typeof e === 'string') {
             if (e != "") {
                 setSelecteduDistrict(e);
@@ -473,7 +473,7 @@ export function EditGrpTypeForm() {
     };
 
     const handleFilterEduSubDistrict = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelecteduSubDistrict(e.target.value);
 
@@ -484,7 +484,7 @@ export function EditGrpTypeForm() {
 
 
     const handleFilterIcdsBlock = (e: any) => {
-        console.log(e)
+        
         if (typeof e === 'string') {
             if (e != "") {
                 setSelectIcdsBlock(e);
@@ -503,7 +503,7 @@ export function EditGrpTypeForm() {
     };
 
     const handleFilterIcdsProject = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectIcdsProject(e.target.value);
 
@@ -513,7 +513,7 @@ export function EditGrpTypeForm() {
 
 
     const handleFilterMissionArea = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectMissionarea(e.target.value);
 
@@ -521,7 +521,7 @@ export function EditGrpTypeForm() {
     };
 
     const handleFilterMissionChapter = (e: any) => {
-        console.log(e.target.value)
+        
         if (typeof e === 'string') {
             if (e != "") {
                 setSelectedMission(e);
@@ -539,7 +539,7 @@ export function EditGrpTypeForm() {
     };
 
     const handleFilterMissionZone = (e: any) => {
-        console.log(e.target.value)
+        
         if (e.target.value != "") {
             setSelectedZone(e.target.value);
 
@@ -560,9 +560,9 @@ export function EditGrpTypeForm() {
                 try {
 
                     if (response.data.success && response.status != 203) {
-                        console.log(response.data.groupDetails[0]);
+                       
                         const data = response.data.groupDetails[0];
-                        console.log(data.group_type);
+                        
                         Cookies.set('club', data.club_names, { expires: 1 });
 
                         setGroupType(data.group_type);
@@ -656,7 +656,7 @@ export function EditGrpTypeForm() {
             const selectedClubIds = clubOptions
                 .filter((club) => selectclub.includes(club.name))
                 .map((club) => club.id);
-            console.log(selectedClubIds)
+            
             Cookies.set('club', selectclub.toString(), { expires: 1 });
 
             const apidata = {
@@ -674,7 +674,7 @@ export function EditGrpTypeForm() {
                 chapterId: selectedschoolType === 'Malayalam Mission' ? missionChapter.find((item) => item.chapter_name === selectMission)?.chapter_id : null,
                 zoneId: selectedschoolType === 'Malayalam Mission' ? missionZone.find((item) => item.zone_name === selectZone)?.zone_id : null
             }
-            console.log(apidata)
+            
 
             if (token) {
                 const response = await axios.post(`${apiURL}/adminEdit//updateSchoolDetails`, apidata, {
@@ -686,7 +686,7 @@ export function EditGrpTypeForm() {
                 try {
 
                     if (response.data.success && response.status != 203) {
-                        console.log(response)
+                        
                         toast({
                             title: "Data Successfully Updated.",
                             description: "",
@@ -723,7 +723,7 @@ export function EditGrpTypeForm() {
                 groupId: parseInt(Id!),
                 members: numberTeamMembers
             }
-            console.log(apidata)
+            
 
             if (token) {
                 const response = await axios.post(`${apiURL}/adminEdit/updateResidence`, apidata, {
@@ -735,7 +735,7 @@ export function EditGrpTypeForm() {
                 try {
 
                     if (response.data.success && response.status != 203) {
-                        console.log(response)
+                        
                         toast({
                             title: "Data Successfully Updated.",
                             description: "",
@@ -772,7 +772,7 @@ export function EditGrpTypeForm() {
                 groupId: parseInt(Id!),
                 members: numberTeamMembers
             }
-            console.log(apidata)
+            
 
             if (token) {
                 const response = await axios.post(`${apiURL}/adminEdit/updateNgo`, apidata, {
@@ -784,7 +784,7 @@ export function EditGrpTypeForm() {
                 try {
 
                     if (response.data.success && response.status != 203) {
-                        console.log(response)
+                        
                         toast({
                             title: "Data Successfully Updated.",
                             description: "",
@@ -823,7 +823,7 @@ export function EditGrpTypeForm() {
                 categoryId: category.find((item) => item.group_type === grptype)?.id,
                 totalMembers: numberTeamMembers
             }
-            console.log(apidata)
+            
 
             if (token) {
                 const response = await axios.post(`${apiURL}/adminEdit/updatePromoter`, apidata, {
@@ -835,7 +835,7 @@ export function EditGrpTypeForm() {
                 try {
 
                     if (response.data.success && response.status != 203) {
-                        console.log(response)
+                        
                         toast({
                             title: "Data Successfully Updated.",
                             description: "",

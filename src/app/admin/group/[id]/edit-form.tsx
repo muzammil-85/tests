@@ -193,7 +193,7 @@ export function EditForm() {
     async function fetchData() {
       const categoryResponse = await fetch(`${apiURL}/category`);
       const categoryData = await categoryResponse.json();
-      console.log(categoryData.category)
+      
       setCategory(categoryData.category);
     }
     fetchData();
@@ -329,7 +329,7 @@ export function EditForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
 
-    console.log(values)
+    
     const distid = districts.find((item) => item.dis_name === selectedDistrict)?.dis_id?.toString();
     const formdata = {
       groupName: gpname,
@@ -345,7 +345,7 @@ export function EditForm() {
       location: location,
       groupId: GpId
     }
-    console.log(formdata)
+    
 
     if (token) {
       const response = await axios.post(`${apiURL}/adminEdit/updateGroupDetails`, formdata, {
@@ -357,7 +357,7 @@ export function EditForm() {
       try {
 
         if (response.data.success && response.status != 203) {
-          console.log(response)
+          
           toast({
             title: "Data Successfully Updated.",
             description: "",

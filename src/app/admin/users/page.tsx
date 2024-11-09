@@ -212,7 +212,7 @@ const AdminGrid = () => {
 
 
   const handleFilterCoordName = (e: any) => {
-    console.log(e)
+    
     if(e != ""){
       setFilterValue(e); // Update dropdown value
       fetchFilteredCoordName(e);
@@ -221,7 +221,7 @@ const AdminGrid = () => {
   };
 
   const handleFilterEmail = (e: any) => {
-    console.log(e)
+    
     if(e != ""){
       setFilterValue(e); // Update dropdown value
       fetchFilteredEmail(e);
@@ -229,7 +229,7 @@ const AdminGrid = () => {
     }
   };
   const handleFilterId = (e: any) => {
-    console.log(e)
+    
     if(e != ""){
       setFilterValue(e); // Update dropdown value
       fetchFilteredId(e);
@@ -237,7 +237,7 @@ const AdminGrid = () => {
     }
   };
   const handleFilterMobile = (e: any) => {
-    console.log(e)
+    
     if(e != ""){
       setFilterValue(e); // Update dropdown value
       fetchFilteredMobile(e);
@@ -488,13 +488,12 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log(response.data.userList)
-          console.log(value)
+          
 
           const filteredData = response.data.userList.filter(
             (item: { co_ord_name: string; }) => item.co_ord_name === value
           );
-          console.log(filteredData)
+          
 
           setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
           setRowData(filteredData);
@@ -521,13 +520,12 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log(response.data.userList)
-          console.log(value)
+         
 
           const filteredData = response.data.userList.filter(
             (item: { us_email: string; }) => item.us_email === value
           );
-          console.log(filteredData)
+          
 
           setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
           setRowData(filteredData);
@@ -554,9 +552,7 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log(response.data.userList)
-          console.log(value)
-
+         
           
 
           setTotalPages(Math.ceil(response.data.userList.length / itemsPerPage));
@@ -584,13 +580,11 @@ const AdminGrid = () => {
       );
       try {
         if (response.data.success && response.status !== 203) {
-          console.log(response.data.userList)
-          console.log(value)
-
+         
           const filteredData = response.data.userList.filter(
             (item: { us_mobile: string; }) => item.us_mobile === value
           );
-          console.log(filteredData)
+          
 
           setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
           setRowData(filteredData);

@@ -208,7 +208,7 @@ const AdminGrid = () => {
        if(response.data.success && response.status!=203){
        
         setTotalPages(Math.ceil(response.data.totalCount / itemsPerPage));
-        console.log(response.data)
+        
          setRowData(response.data.Uploads);
        }
        
@@ -271,7 +271,7 @@ useEffect(() => {
     async function fetchData() {
         const categoryResponse = await fetch(`${apiURL}/category`);
         const categoryData = await categoryResponse.json();
-        console.log(categoryData.category)
+        
         setCategory(categoryData.category);
     }
     fetchData();
@@ -377,7 +377,7 @@ const handleEduDistrict = async (e: any) => {
 }
 
 const handleFilterGrpName = (e: any) => {
-    console.log(e)
+    
     if (e != "") {
         fetchFilteredGrpName(e);
         setCurrentPage(1); // Reset to first page
@@ -385,7 +385,7 @@ const handleFilterGrpName = (e: any) => {
 };
 
 const handleFilterEmail = (e: any) => {
-    console.log(e)
+    
     if (e != "") {
 
         fetchFilteredEmail(e);
@@ -393,7 +393,7 @@ const handleFilterEmail = (e: any) => {
     }
 };
 const handleFilterId = (e: any) => {
-    console.log(e)
+    
     if (e != "") {
 
         fetchFilteredId(e);
@@ -401,7 +401,7 @@ const handleFilterId = (e: any) => {
     }
 };
 const handleFilterMobile = (e: any) => {
-    console.log(e)
+    
     if (e != "") {
 
         fetchFilteredMobile(e);
@@ -424,8 +424,8 @@ const fetchFilteredGrpName = async (value: string) => {
         );
         try {
             if (response.data.success && response.status !== 203) {
-                console.log(response.data.Uploads)
-                console.log(value)
+                
+                
 
              
 
@@ -454,13 +454,13 @@ const fetchFilteredEmail = async (value: string) => {
         );
         try {
             if (response.data.success && response.status !== 203) {
-                console.log(response.data.Uploads)
-                console.log(value)
+                
+                
 
                 const filteredData = response.data.Uploads.filter(
                     (item: { co_email_id: string; }) => item.co_email_id === value
                 );
-                console.log(filteredData)
+                
 
                 setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
                 setRowData(filteredData);
@@ -487,13 +487,13 @@ const fetchFilteredId = async (value: string) => {
         );
         try {
             if (response.data.success && response.status !== 203) {
-                console.log(response.data.Uploads)
-                console.log(value)
+                
+                
 
                 const filteredData = response.data.Uploads.filter(
                     (item: { up_id: string; }) => item.up_id == value
                 );
-                console.log(filteredData)
+                
 
                 setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
                 setRowData(filteredData);
@@ -520,13 +520,13 @@ const fetchFilteredMobile = async (value: string) => {
         );
         try {
             if (response.data.success && response.status !== 203) {
-                console.log(response.data.Uploads)
-                console.log(value)
+                
+                
 
                 const filteredData = response.data.Uploads.filter(
                     (item: { co_ord_contact: string; }) => item.co_ord_contact == value
                 );
-                console.log(filteredData)
+                
 
                 setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
                 setRowData(filteredData);
@@ -762,7 +762,7 @@ const handleFilterChangeCntry = (e: any) => {
   
 
   const handleFilterGrpType = (e: any) => {
-    console.log(e.target.value)
+    
     if (e != "") {
       setGroupType(e.target.value);
       fetchFilteredGrpType(e.target.value);
@@ -798,7 +798,7 @@ const handleFilterChangeCntry = (e: any) => {
   };
 
   const handleFilterSchoolType = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectedSchoolType(e.target.value);
       e.target.value === 'CBSE' ? setSelectedCountryGrp('India') : ''
@@ -837,7 +837,7 @@ const handleFilterChangeCntry = (e: any) => {
   };
 
   const handleFilterSchoolCategory = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectedSubCategory(e.target.value);
       fetchFilteredSchoolCategory(e.target.value);
@@ -873,7 +873,7 @@ const handleFilterChangeCntry = (e: any) => {
   };
 
   const handleFilterSahodayaState = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectedStateGrp(e.target.value);
       setCurrentPage(1); // Reset to first page
@@ -881,7 +881,7 @@ const handleFilterChangeCntry = (e: any) => {
   };
 
   const handleFilterSahodaya = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectSahodaya(e.target.value);
       fetchFilteredSahodaya(e.target.value);
@@ -918,7 +918,7 @@ const handleFilterChangeCntry = (e: any) => {
 
 
   const handleFilterEDistrict = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectedDistrictGrp(e.target.value);
       // fetchFilteredSahodaya(e.target.value);
@@ -927,7 +927,7 @@ const handleFilterChangeCntry = (e: any) => {
   };
 
   const handleFilterEduDistrict = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelecteduDistrict(e.target.value);
       handleEduDistrict(e.target.value);
@@ -936,7 +936,7 @@ const handleFilterChangeCntry = (e: any) => {
   };
 
   const handleFilterEduSubDistrict = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelecteduSubDistrict(e.target.value);
       fetchFilteredEduSubDistrict(e.target.value);
@@ -973,7 +973,7 @@ const handleFilterChangeCntry = (e: any) => {
 
 
   const handleFilterIcdsBlock = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectIcdsBlock(e.target.value);
       handleIcds(e.target.value);
@@ -982,7 +982,7 @@ const handleFilterChangeCntry = (e: any) => {
   };
 
   const handleFilterIcdsProject = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectIcdsProject(e.target.value);
       fetchFilteredIcdsProject(e.target.value);
@@ -1018,7 +1018,7 @@ const handleFilterChangeCntry = (e: any) => {
   };
 
   const handleFilterMissionArea = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectMissionarea(e.target.value);
       setCurrentPage(1); // Reset to first page
@@ -1026,7 +1026,7 @@ const handleFilterChangeCntry = (e: any) => {
   };
 
   const handleFilterMissionChapter = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectedMission(e.target.value);
       handleChapter(e.target.value);
@@ -1035,7 +1035,7 @@ const handleFilterChangeCntry = (e: any) => {
   };
 
   const handleFilterMissionZone = (e: any) => {
-    console.log(e.target.value)
+    
     if (e.target.value != "") {
       setSelectedZone(e.target.value);
       fetchFilteredMissionZone(e.target.value);

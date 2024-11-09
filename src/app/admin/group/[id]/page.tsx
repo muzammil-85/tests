@@ -68,7 +68,7 @@ function Page() {
         try {
 
           if (response.data.success && response.status != 203) {
-            console.log(response.data.groupDetails[0])
+         
             setUploadData(response.data.groupDetails);
           } else {
 
