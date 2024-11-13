@@ -9,7 +9,7 @@ import {
 import { AgGridReact } from "@ag-grid-community/react";
 import "@/app/admin/ag-grid-theme-builder.css"
 import { useRouter } from "next/navigation";
-import React, { StrictMode, useEffect, useMemo, useState } from "react";
+import React, { StrictMode, useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { apiURL } from "@/app/requestsapi/request";
 import Cookies from 'js-cookie';
@@ -78,6 +78,10 @@ interface MissionZone {
   zone_id: string;
   zone_name: string;
 }
+type GrpName = {
+  gp_id: string;
+  gp_name: string;
+}
 const AdminGrid = () => {
   const router = useRouter();
   const [rowData, setRowData] = useState([]);
@@ -128,6 +132,8 @@ const AdminGrid = () => {
   const [icdsProject, setIcdsProject] = useState<IcdsProject[]>([]);
   const [selectMission, setSelectedMission] = useState('');
   const [selectZone, setSelectedZone] = useState('');
+  const [selectedgrpName, setSelectedGrpName] = useState("");
+  const [grpName, setGrpName] = useState<GrpName[]>([]);
 
   useEffect(() => {
     if (!token) {
@@ -213,7 +219,7 @@ const AdminGrid = () => {
 
         if (response.data.success && response.status != 203) {
           setTotalPages(Math.ceil(response.data.totalCount / itemsPerPage));
-
+          setTotalcount(response.data.totalCount);
           setRowData(response.data.groupList);
         }
       }
@@ -325,9 +331,13 @@ const AdminGrid = () => {
         try {
           if (response.data.success && response.status !== 203) {
             setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+            setTotalcount(response.data.groupList.length);
+
             setRowData(response.data.groupList);
           } else {
             setRowData([]);
+  setTotalcount("0");
+
           }
         } catch (error) {
           console.error("Error:", error);
@@ -407,13 +417,7 @@ const AdminGrid = () => {
     }
   }
 
-  const handleFilterGrpName = (e: any) => {
 
-    if (e != "") {
-      fetchFilteredGrpName(e);
-      setCurrentPage(1); // Reset to first page
-    }
-  };
 
   const handleFilterEmail = (e: any) => {
 
@@ -440,34 +444,7 @@ const AdminGrid = () => {
     }
   };
 
-  const fetchFilteredGrpName = async (value: string) => {
-    if (token) {
-      const response = await axios.post(
-        `${apiURL}/admin/adminGroupList`,
-        { groupName: value },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      try {
-        if (response.data.success && response.status !== 203) {
 
-
-
-
-          setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
-          setRowData(response.data.groupList);
-        } else {
-          setRowData([]);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-  };
 
   const fetchFilteredEmail = async (value: string) => {
     if (token) {
@@ -490,11 +467,14 @@ const AdminGrid = () => {
             (item: { co_email_id: string; }) => item.co_email_id === value
           );
 
+          setTotalcount(response.data.groupList.length);
 
           setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
           setRowData(filteredData);
         } else {
           setRowData([]);
+  setTotalcount("0");
+
         }
       } catch (error) {
         console.error("Error:", error);
@@ -518,9 +498,13 @@ const AdminGrid = () => {
         if (response.data.success && response.status !== 203) {
 
           setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setTotalcount(response.data.groupList.length);
+
           setRowData(response.data.groupList);
         } else {
           setRowData([]);
+  setTotalcount("0");
+
         }
       } catch (error) {
         console.error("Error:", error);
@@ -549,11 +533,14 @@ const AdminGrid = () => {
             (item: { co_ord_contact: string; }) => item.co_ord_contact == value
           );
 
+          setTotalcount(response.data.groupList.length);
 
           setTotalPages(Math.ceil(filteredData.length / itemsPerPage));
           setRowData(filteredData);
         } else {
           setRowData([]);
+  setTotalcount("0");
+
         }
       } catch (error) {
         console.error("Error:", error);
@@ -629,9 +616,13 @@ const AdminGrid = () => {
 
 
           setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setTotalcount(response.data.groupList.length);
+
           setRowData(response.data.groupList);
         } else {
           setRowData([]);
+  setTotalcount("0");
+
         }
       } catch (error) {
         console.error("Error:", error);
@@ -658,9 +649,13 @@ const AdminGrid = () => {
 
 
           setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setTotalcount(response.data.groupList.length);
+
           setRowData(response.data.groupList);
         } else {
           setRowData([]);
+  setTotalcount("0");
+
         }
       } catch (error) {
         console.error("Error:", error);
@@ -686,9 +681,13 @@ const AdminGrid = () => {
 
 
           setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setTotalcount(response.data.groupList.length);
+
           setRowData(response.data.groupList);
         } else {
           setRowData([]);
+  setTotalcount("0");
+
         }
       } catch (error) {
         console.error("Error:", error);
@@ -714,9 +713,13 @@ const AdminGrid = () => {
 
 
           setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setTotalcount(response.data.groupList.length);
+
           setRowData(response.data.groupList);
         } else {
           setRowData([]);
+  setTotalcount("0");
+
         }
       } catch (error) {
         console.error("Error:", error);
@@ -742,9 +745,13 @@ const AdminGrid = () => {
 
 
           setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setTotalcount(response.data.groupList.length);
+
           setRowData(response.data.groupList);
         } else {
           setRowData([]);
+  setTotalcount("0");
+
         }
       } catch (error) {
         console.error("Error:", error);
@@ -769,9 +776,13 @@ const AdminGrid = () => {
 
 
           setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setTotalcount(response.data.groupList.length);
+
           setRowData(response.data.groupList);
         } else {
           setRowData([]);
+  setTotalcount("0");
+
         }
       } catch (error) {
         console.error("Error:", error);
@@ -809,9 +820,13 @@ const AdminGrid = () => {
 
 
           setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setTotalcount(response.data.groupList.length);
+
           setRowData(response.data.groupList);
         } else {
           setRowData([]);
+  setTotalcount("0");
+
         }
       } catch (error) {
         console.error("Error:", error);
@@ -848,9 +863,13 @@ const AdminGrid = () => {
 
 
           setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setTotalcount(response.data.groupList.length);
+
           setRowData(response.data.groupList);
         } else {
           setRowData([]);
+  setTotalcount("0");
+
         }
       } catch (error) {
         console.error("Error:", error);
@@ -884,9 +903,13 @@ const AdminGrid = () => {
 
 
           setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setTotalcount(response.data.groupList.length);
+
           setRowData(response.data.groupList);
         } else {
           setRowData([]);
+  setTotalcount("0");
+
         }
       } catch (error) {
         console.error("Error:", error);
@@ -928,9 +951,13 @@ const AdminGrid = () => {
 
 
           setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setTotalcount(response.data.groupList.length);
+
           setRowData(response.data.groupList);
         } else {
           setRowData([]);
+  setTotalcount("0");
+
         }
       } catch (error) {
         console.error("Error:", error);
@@ -983,9 +1010,13 @@ const AdminGrid = () => {
 
 
           setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setTotalcount(response.data.groupList.length);
+
           setRowData(response.data.groupList);
         } else {
           setRowData([]);
+  setTotalcount("0");
+
         }
       } catch (error) {
         console.error("Error:", error);
@@ -1029,9 +1060,13 @@ const AdminGrid = () => {
 
 
           setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setTotalcount(response.data.groupList.length);
+
           setRowData(response.data.groupList);
         } else {
           setRowData([]);
+  setTotalcount("0");
+
         }
       } catch (error) {
         console.error("Error:", error);
@@ -1082,9 +1117,174 @@ const AdminGrid = () => {
 
 
           setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setTotalcount(response.data.groupList.length);
+
           setRowData(response.data.groupList);
         } else {
           setRowData([]);
+  setTotalcount("0");
+
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+
+
+  const handleFilterGrpName = (e: any) => {
+
+    if (e.target.value != "") {
+      setSelectedGrpName(e.target.value);
+      fetchFilteredGrpName(e.target.value);
+      setCurrentPage(1); // Reset to first page
+    }
+  };
+
+
+  const fetchgrpname = useCallback(async () => {
+    try {
+      // Clear group name to empty array before fetching
+      setGrpName([]);
+
+      const response = await axios.post(
+        `${apiURL}/common/groupName/`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      
+      setGrpName(response.data.groupList);
+    } catch (error) {
+      console.error("Error fetching category:", error);
+    }
+  }, []); // Empty dependency array ensures this only runs once
+
+  // Call fetchgrpname only once when the component mounts
+  useEffect(() => {
+    fetchgrpname();
+  }, [fetchgrpname]);
+
+  // Define handleGrpName using useCallback to memoize it
+  const handleGrpName = useCallback(async () => {
+    if (grouptype) {
+      const groupId = category.find((item) => item.group_type === grouptype)?.id;
+      const subcatid = subcategoryOptions.find((item) => item.gp_cat_name === selectedSubCategory)?.gp_cat_id;
+      const schooltypeid = schoolType.find((item) => item.type_name === selectedschoolType)?.id;
+      const sahodayaid = sahodaya.find((item) => item.sahodaya_name === selectSahodaya)?.sahodaya_id;
+      const edudistid = eduDistrict.find((item) => item.edu_district === selecteduDistrict)?.edu_district_id;
+      const edusubid = eduSubDistrict.find((item) => item.edu_sub_district_name === selecteduSubDistrict)?.edu_sub_district_id;
+      const blockid = icdsBlock.find((item) => item.block_name === selectIcdsBlock)?.icds_block_id;
+      const projectid = icdsProject.find((item) => item.project_name === selectIcdsProject)?.project_id;
+      const chapterid = missionChapter.find((item) => item.chapter_name === selectMission)?.chapter_id;
+      const zoneid = missionZone.find((item) => item.zone_name === selectZone)?.zone_id;
+
+      const apidata = {
+        groupTypeId: groupId,
+        subCategoryId: subcatid,
+        schoolTypeId: schooltypeid,
+        eduDistrictId: edudistid,
+        eduSubDistrictId: edusubid,
+        sahodayaId: sahodayaid,
+        blockId: blockid,
+        projectId: projectid,
+        chapterId: chapterid,
+        zoneId: zoneid
+      };
+
+     
+
+      try {
+        // Clear group name to empty array before fetching
+        setGrpName([]);
+
+        const response = await axios.post(
+          `${apiURL}/common/groupName/`,
+          apidata,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const GroupList = response.data.groupList;
+        
+        setGrpName(GroupList);
+      } catch (error) {
+        console.error("Error fetching group names:", error);
+      }
+    }
+  }, [
+    grouptype,
+    category,
+    subcategoryOptions,
+    schoolType,
+    sahodaya,
+    eduDistrict,
+    eduSubDistrict,
+    icdsBlock,
+    icdsProject,
+    missionChapter,
+    missionZone,
+    selectedSubCategory,
+    selectedschoolType,
+    selectSahodaya,
+    selecteduDistrict,
+    selecteduSubDistrict,
+    selectIcdsBlock,
+    selectIcdsProject,
+    selectMission,
+    selectZone
+  ]);
+
+  // Trigger handleGrpName whenever dependencies change
+  useEffect(() => {
+    if (grouptype) {
+      handleGrpName();
+    }
+  }, [
+    grouptype,
+    selectedSubCategory,
+    selectedschoolType,
+    selectSahodaya,
+    selecteduDistrict,
+    selecteduSubDistrict,
+    selectIcdsBlock,
+    selectIcdsProject,
+    selectMission,
+    selectZone,
+    handleGrpName
+  ]);
+
+
+  const fetchFilteredGrpName = async (value: string) => {
+    if (token) {
+      
+      const response = await axios.post(
+        `${apiURL}/admin/adminGroupList`,
+        { groupId: grpName.find((item) => item.gp_name === value)?.gp_id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      try {
+        if (response.data.success && response.status !== 203) {
+          setTotalPages(Math.ceil(response.data.groupList.length / itemsPerPage));
+          setTotalcount(response.data.groupList.length);
+
+
+          setRowData(response.data.groupList);
+        } else {
+          setRowData([]);
+  setTotalcount("0");
+
         }
       } catch (error) {
         console.error("Error:", error);
@@ -1609,6 +1809,30 @@ const AdminGrid = () => {
             </select>
           </div>
         </>)}
+
+      <div className="flex items-center mb-3 space-x-2">
+        <label htmlFor="groupFilter" className="text-sm font-medium">
+          Group Name :
+        </label>
+        <select
+          id="groupFilter"
+          value={selectedgrpName}
+          onChange={handleFilterGrpName}
+          className="border border-gray-300 rounded p-1"
+        >
+          <option value="">Select Group Name</option>
+
+          {grpName.map((c) => (
+            <option key={c.gp_id} value={c.gp_name}>
+              {c.gp_name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="flex items-center justify-center font-bold">Total Count : {totalcount}</div>
+
+
       <div className={"ag-theme-quartz"} style={{ height: 600 }}>
         <AgGridReact
           rowData={rowData}
